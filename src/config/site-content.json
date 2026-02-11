@@ -5,7 +5,7 @@
 		"username": "Amis"
 	},
 	"theme": {
-		"colorBrand": "#07E0C4",
+		"colorBrand": "#16DB9F",
 		"colorPrimary": "#334f52",
 		"colorSecondary": "#7b888e",
 		"colorBrandSecondary": "#1fc9e7",
@@ -15,13 +15,14 @@
 		"colorArticle": "#ffffffcc"
 	},
 	"backgroundColors": [
-		"#DCBBD0",
-		"#FD9BA8",
-		"#7E8CD1",
-		"#9796CA",
-		"#2CB40F",
-		"#CF8FA7",
-		"#E70FED"
+		"#2779BD",
+		"#DD7437",
+		"#FCF9BA",
+		"#D55ABD",
+		"#FD0336",
+		"#0C5B45",
+		"#5056C9",
+		"#8BA670"
 	],
 	"artImages": [
 		{
@@ -68,7 +69,7 @@
 	"clockShowSeconds": false,
 	"summaryInContent": false,
 	"isCachePem": false,
-	"hideEditButton": true,
+	"hideEditButton": false,
 	"enableCategories": true,
 	"currentHatIndex": 24,
 	"hatFlipped": false,
