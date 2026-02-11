@@ -158,7 +158,7 @@ export async function createCommit(token: string, owner: string, repo: string, m
 }
 
 export async function updateRef(token: string, owner: string, repo: string, ref: string, sha: string, force = false): Promise<void> {
-	const res = await fetch(`${GH_API}/repos/${owner}/${repo}/git/refs/${encodeURIComponent(ref)}`, {
+	const res = await fetch(`${GH_API}/repos/${owner}/${repo}/git/refs/heads/${encodeURIComponent(ref)}`, {
 		method: 'PATCH',
 		headers: {
 			Authorization: `Bearer ${token}`,
