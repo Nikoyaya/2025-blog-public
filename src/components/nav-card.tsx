@@ -11,8 +11,8 @@ import ScrollOutlineSVG from '@/svgs/scroll-outline.svg'
 import ScrollFilledSVG from '@/svgs/scroll-filled.svg'
 import ProjectsFilledSVG from '@/svgs/projects-filled.svg'
 import ProjectsOutlineSVG from '@/svgs/projects-outline.svg'
-import AboutFilledSVG from '@/svgs/about-filled.svg'
-import AboutOutlineSVG from '@/svgs/about-outline.svg'
+import TrainOutlineSVG from '@/svgs/train-outline.svg'
+import TrainFilledSVG from '@/svgs/train-filled.svg'
 import ShareFilledSVG from '@/svgs/share-filled.svg'
 import ShareOutlineSVG from '@/svgs/share-outline.svg'
 import WebsiteFilledSVG from '@/svgs/website-filled.svg'
@@ -38,10 +38,10 @@ const list = [
 		href: '/projects'
 	},
 	{
-		icon: AboutOutlineSVG,
-		iconActive: AboutFilledSVG,
-		label: '关于网站',
-		href: '/about'
+		icon: TrainOutlineSVG,
+		iconActive: TrainFilledSVG,
+		label: '友链',
+		href: 'https://www.baidu.com'
 	},
 	{
 		icon: ShareOutlineSVG,
@@ -76,7 +76,6 @@ export default function NavCard() {
 
 	useEffect(() => {
 		setShow(true)
-	}, [])
 
 	let form = useMemo(() => {
 		if (pathname == '/') return 'full'
@@ -175,6 +174,8 @@ export default function NavCard() {
 									<Link
 										key={item.href}
 										href={item.href}
+										target={item.href.startsWith('http') ? '_blank' : undefined}
+										rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
 										className={cn('text-secondary text-md relative z-10 flex items-center gap-3 rounded-full px-5 py-3', form === 'icons' && 'p-0')}
 										onMouseEnter={() => setHoveredIndex(index)}>
 										<div className='flex h-7 w-7 items-center justify-center'>
