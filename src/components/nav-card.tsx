@@ -76,6 +76,7 @@ export default function NavCard() {
 
 	useEffect(() => {
 		setShow(true)
+	}, [])
 
 	let form = useMemo(() => {
 		if (pathname == '/') return 'full'

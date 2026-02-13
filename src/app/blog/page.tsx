@@ -13,7 +13,7 @@ import ShortLineSVG from '@/svgs/short-line.svg'
 import { useBlogIndex, type BlogIndexItem } from '@/hooks/use-blog-index'
 import { useCategories } from '@/hooks/use-categories'
 import { useReadArticles } from '@/hooks/use-read-articles'
-import JuejinSVG from '@/svgs/juejin.svg'
+import DotsSVG from '@/svgs/dots.svg'
 import { useAuthStore } from '@/hooks/use-auth'
 import { useConfigStore } from '@/app/(home)/stores/config-store'
 import { readFileAsText } from '@/lib/file-utils'
@@ -42,6 +42,10 @@ export default function BlogPage() {
 	const [categoryModalOpen, setCategoryModalOpen] = useState(false)
 	const [categoryList, setCategoryList] = useState<string[]>([])
 	const [newCategory, setNewCategory] = useState('')
+	// 分页状态
+	const [currentPage, setCurrentPage] = useState(1)
+	const [isLoadingMore, setIsLoadingMore] = useState(false)
+	const postsPerPage = 10
 
 	useEffect(() => {
 		if (!editMode) {
@@ -53,10 +57,23 @@ export default function BlogPage() {
 		setCategoryList(categoriesFromServer || [])
 	}, [categoriesFromServer])
 
+	// 计算当前页面显示的文章
 	const displayItems = editMode ? editableItems : items
+	const totalItems = displayItems.length
+	const paginatedItems = displayItems.slice(0, currentPage * postsPerPage)
+	const hasMoreItems = paginatedItems.length < totalItems
+
+	// 加载更多文章
+	const loadMore = () => {
+		if (!hasMoreItems || isLoadingMore) return
+		setIsLoadingMore(true)
+		// 简单的分页实现，直接增加页码
+		setCurrentPage(prev => prev + 1)
+		setIsLoadingMore(false)
+	}
 
 	const { groupedItems, groupKeys, getGroupLabel } = useMemo(() => {
-		const sorted = [...displayItems].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+		const sorted = [...paginatedItems].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
 		const grouped = sorted.reduce(
 			(acc, item) => {
@@ -122,7 +139,7 @@ export default function BlogPage() {
 			groupKeys: keys,
 			getGroupLabel: (key: string) => grouped[key]?.label || key
 		}
-	}, [displayItems, displayMode, categoryList])
+	}, [paginatedItems, displayMode, categoryList])
 
 	const selectedCount = selectedSlugs.size
 	const buttonText = isAuth ? '保存' : '导入密钥'
@@ -444,20 +461,22 @@ export default function BlogPage() {
 					)
 				})}
 				{items.length > 0 && (
-					<div className='text-center'>
-						<motion.a
-							initial={{ opacity: 0, scale: 0.6 }}
-							animate={{ opacity: 1, scale: 1 }}
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							href='https://juejin.cn/user/2427311675422382/posts'
-							target='_blank'
-							className='card text-secondary static inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs'>
-							<JuejinSVG className='h-4 w-4' />
-							更多
-						</motion.a>
-					</div>
-				)}
+						<div className='text-center'>
+							{hasMoreItems && (
+								<motion.button
+									initial={{ opacity: 0, scale: 0.6 }}
+									animate={{ opacity: 1, scale: 1 }}
+									whileHover={{ scale: 1.05 }}
+									whileTap={{ scale: 0.95 }}
+									onClick={loadMore}
+									disabled={isLoadingMore}
+									className='brand-btn static inline-flex items-center gap-2 px-4 py-2 text-sm disabled:opacity-60 disabled:cursor-not-allowed'>
+									<DotsSVG className='h-4 w-4' />
+									{isLoadingMore ? '加载中...' : '更多'}
+								</motion.button>
+							)}
+						</div>
+					)}
 			</div>
 
 			<div className='pt-12'>
