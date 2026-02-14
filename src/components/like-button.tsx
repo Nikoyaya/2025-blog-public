@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { BLOG_SLUG_KEY } from '@/consts'
+import axios from 'axios'
 
 type LikeButtonProps = {
 	slug?: string
@@ -12,15 +13,21 @@ type LikeButtonProps = {
 	delay?: number
 }
 
-// 暂时禁用API调用
-// const ENDPOINT = 'https://blog-liker.yysuni1001.workers.dev/api/like'
+// 恢复API调用，使用新的后端接口
+const API_HOST = 'http://38.76.217.93:9991'
+const API_ENDPOINTS = {
+  IP: `${API_HOST}/api/admin/like/ip`,
+  LIKE: `${API_HOST}/api/admin/like`,
+  TOTAL: `${API_HOST}/api/admin/like/total`
+}
 
 export default function LikeButton({ slug = 'yysuni', className }: LikeButtonProps) {
 	slug = BLOG_SLUG_KEY + slug
 	const [liked, setLiked] = useState(false)
 	const [justLiked, setJustLiked] = useState(false)
 	const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number }>>([])
-	const [count, setCount] = useState(0) // 本地状态管理点赞数
+	const [count, setCount] = useState(0)
+	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
 		if (justLiked) {
@@ -29,11 +36,39 @@ export default function LikeButton({ slug = 'yysuni', className }: LikeButtonPro
 		}
 	}, [justLiked])
 
-	const handleLike = useCallback(() => {
-		if (!slug) return
+	// 组件加载时获取总点赞数
+	useEffect(() => {
+		const fetchTotalLikes = async () => {
+			try {
+				const response = await axios.get(API_ENDPOINTS.TOTAL)
+				if (typeof response.data.data === 'number') {
+					setCount(response.data.data)
+				}
+			} catch (error) {
+				console.error('获取总点赞数失败:', error)
+			}
+		}
+		fetchTotalLikes()
+	}, [])
+
+	// 获取客户端IP
+	const getClientIp = async () => {
+		try {
+			const response = await axios.get(API_ENDPOINTS.IP)
+			return response.data.data
+		} catch (error) {
+			console.error('获取IP失败:', error)
+			return null
+		}
+	}
+
+	const handleLike = useCallback(async () => {
+		if (!slug || loading) return
+		
+		// 先显示前端效果
 		setLiked(true)
 		setJustLiked(true)
-		setCount(prev => prev + 1) // 本地增加点赞数
+		setLoading(true)
 
 		// Create particle effects
 		const newParticles = Array.from({ length: 6 }, (_, i) => ({
@@ -46,9 +81,42 @@ export default function LikeButton({ slug = 'yysuni', className }: LikeButtonPro
 		// Clear particles after animation
 		setTimeout(() => setParticles([]), 1000)
 
-		// 显示感谢点赞的提示
-		toast('💕感谢点赞！！💕😘')
-	}, [slug])
+		try {
+			// 获取IP
+			const ip = await getClientIp()
+			if (!ip) {
+				toast('获取IP失败，请稍后再试')
+				return
+			}
+
+			// 发送点赞请求
+			const response = await axios.post(API_ENDPOINTS.LIKE, {
+				ipAddress: ip
+			})
+
+			if (response.data.data === -1) {
+				toast('谢谢啦😘，今天已经不能再点赞啦💕')
+			} else {
+				// 显示感谢点赞的提示
+				toast('💕感谢点赞！！💕😘')
+				// 更新点赞数
+				if (typeof response.data.data === 'number') {
+					setCount(response.data.data)
+				} else {
+					// 如果没有返回新的计数，本地增加
+					setCount(prev => prev + 1)
+				}
+			}
+		} catch (error) {
+			console.error('点赞失败:', error)
+			// 即使出错也显示感谢提示
+			toast('💕感谢点赞！！💕😘')
+			// 本地增加点赞数作为降级方案
+			setCount(prev => prev + 1)
+		} finally {
+			setLoading(false)
+		}
+	}, [slug, loading])
 
 	return (
 		<motion.button
