@@ -13,13 +13,7 @@ type LikeButtonProps = {
 }
 
 // 恢复API调用，使用新的后端接口
-// 根据当前页面协议动态选择API协议
-const getApiHost = () => {
-  const protocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'https:' : 'http:'
-  return `${protocol}//38.76.217.93:9991`
-}
-
-const API_HOST = getApiHost()
+const API_HOST = 'http://38.76.217.93:9991'
 const API_ENDPOINTS = {
   IP: `${API_HOST}/api/admin/like/ip`,
   LIKE: `${API_HOST}/api/admin/like`,
@@ -92,10 +86,24 @@ export default function LikeButton({ slug = 'amis', className }: LikeButtonProps
 
 		try {
 			// 获取IP
-			const ip = await getClientIp()
+			let ip = await getClientIp()
+
+			// 如果IP获取失败，使用设备唯一标识作为假IP
 			if (!ip) {
-				toast('获取IP失败，请稍后再试')
-				return
+				// 尝试从localStorage获取设备唯一标识
+				let deviceId = typeof window !== 'undefined' ? localStorage.getItem('like_device_id') : null
+				
+				// 如果没有设备标识，生成一个新的
+				if (!deviceId) {
+					deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+					if (typeof window !== 'undefined') {
+						localStorage.setItem('like_device_id', deviceId)
+					}
+				}
+				
+				// 使用设备标识作为假IP
+				ip = deviceId
+				console.log('使用设备标识作为IP:', ip)
 			}
 
 			// 发送点赞请求
