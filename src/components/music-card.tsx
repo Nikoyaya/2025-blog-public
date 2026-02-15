@@ -165,11 +165,13 @@ export default function MusicCard() {
 	const handlePrevious = () => {
 		const prevIndex = (currentIndex - 1 + MUSIC_FILES.length) % MUSIC_FILES.length
 		setCurrentIndex(prevIndex)
+		setIsPlaying(true)
 	}
 
 	const handleNext = () => {
 		const nextIndex = (currentIndex + 1) % MUSIC_FILES.length
 		setCurrentIndex(nextIndex)
+		setIsPlaying(true)
 	}
 
 	const togglePlaylist = () => {
