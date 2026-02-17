@@ -13,6 +13,7 @@ type MobileLanguageButtonProps = {
 
 export function MobileLanguageButton({ className, delay }: MobileLanguageButtonProps) {
 	const [show, setShow] = useState(false)
+	const [active, setActive] = useState(false)
 	const { maxSM } = useSize()
 	
 	useEffect(() => {
@@ -23,7 +24,42 @@ export function MobileLanguageButton({ className, delay }: MobileLanguageButtonP
 		}
 	}, [delay, maxSM])
 
-	if (!show || !maxSM) return null
+	useEffect(() => {
+		if (!maxSM) return
+		
+		let inactivityTimer: NodeJS.Timeout
+		
+		const handleScroll = () => {
+			setActive(true)
+			
+			// 清除之前的定时器
+			clearTimeout(inactivityTimer)
+			
+			// 设置新的定时器，3秒后隐藏按钮
+			inactivityTimer = setTimeout(() => {
+				setActive(false)
+			}, 5000)
+		}
+		
+		// 初始化时设置为可见
+		setActive(true)
+		
+		// 设置初始定时器，3秒后隐藏按钮
+		inactivityTimer = setTimeout(() => {
+			setActive(false)
+		}, 3000)
+		
+		// 添加滚动事件监听
+		window.addEventListener('scroll', handleScroll, { passive: true })
+		
+		// 清理函数
+		return () => {
+			window.removeEventListener('scroll', handleScroll)
+			clearTimeout(inactivityTimer)
+		}
+	}, [maxSM])
+
+	if (!show || !active || !maxSM) return null
 
 	return (
 		<motion.div
