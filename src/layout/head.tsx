@@ -16,12 +16,44 @@ export default function Head() {
 			<Script src='https://www.googletagmanager.com/gtag/js?id=G-ZNSFR7C9PM' />
 			<Script id='google-analytics'>
 				{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+				  window.dataLayer = window.dataLayer || [];
+				  function gtag(){dataLayer.push(arguments);}
+				  gtag('js', new Date());
 
-          gtag('config', 'G-ZNSFR7C9PM');
-        `}
+				  gtag('config', 'G-ZNSFR7C9PM');
+				`}
+			</Script>
+			
+			<Script id='force-portrait-mobile'>
+				{`
+				  // 检测是否是手机设备
+				  function isMobileDevice() {
+				    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && window.innerWidth < 768;
+				  }
+				  
+				  // 处理设备方向变化
+				  function handleOrientationChange() {
+				    if (isMobileDevice()) {
+				      const orientation = window.orientation || screen.orientation.angle;
+				      if (orientation === 90 || orientation === -90) {
+				        // 是横屏，强制设置为竖屏
+				        if (screen.orientation && screen.orientation.lock) {
+				          screen.orientation.lock('portrait').catch(err => {
+				            console.log('无法锁定屏幕方向:', err);
+				          });
+				        } else if (screen.lockOrientation) {
+				          screen.lockOrientation('portrait');
+				        }
+				      }
+				    }
+				  }
+				  
+				  // 初始化时检查
+				  window.addEventListener('load', handleOrientationChange);
+				  // 监听方向变化
+				  window.addEventListener('orientationchange', handleOrientationChange);
+				  window.addEventListener('resize', handleOrientationChange);
+				`}
 			</Script>
 		</head>
 	)
