@@ -11,7 +11,7 @@ const languages: Array<{ code: Language; label: string; flag: string }> = [
   { code: 'zh-TW', label: '繁體中文', flag: '🇨🇳' }
 ];
 
-export default function LanguageSelector({ direction = 'down' }: { direction?: 'up' | 'down' }) {
+export default function LanguageSelector({ direction = 'down', mobile = false }: { direction?: 'up' | 'down'; mobile?: boolean }) {
   const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -25,7 +25,7 @@ export default function LanguageSelector({ direction = 'down' }: { direction?: '
         animate={{ opacity: 1, scale: 1 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="card whitespace-nowrap flex items-center gap-2 rounded-full p-3"
+        className={mobile ? "card whitespace-nowrap flex items-center gap-2 rounded-full p-3" : "brand-btn whitespace-nowrap flex items-center gap-2"}
       >
         <span>{currentLanguage?.flag}</span>
         <span>{currentLanguage?.label.split(' ')[0]}</span>
@@ -39,6 +39,7 @@ export default function LanguageSelector({ direction = 'down' }: { direction?: '
             exit={{ opacity: 0, y: direction === 'down' ? -10 : 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             className={`absolute ${direction === 'down' ? 'top-full left-0 mt-2' : 'bottom-full left-0 mb-2'} w-48 rounded-lg bg-card shadow-lg border border-border overflow-hidden z-50`}
+            style={{ backdropFilter: 'blur(10px)', backgroundColor: 'rgba(255, 255, 255, 0.7)' }}
           >
             {languages.map((lang) => (
               <motion.button

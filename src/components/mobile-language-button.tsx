@@ -29,9 +29,9 @@ export function MobileLanguageButton({ className, delay }: MobileLanguageButtonP
 		<motion.div
 			initial={{ opacity: 0, scale: 0.4 }}
 			animate={{ opacity: 1, scale: 1 }}
-			className={cn('fixed bottom-8 left-8 z-50', className)}
+			className={cn('fixed bottom-16 left-8 z-50', className)}
 		>
-			<LanguageSelector direction="up" />
+			<LanguageSelector direction="up" mobile={true} />
 		</motion.div>
 	)
 }
