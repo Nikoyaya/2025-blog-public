@@ -7,7 +7,7 @@ import translations from './translations';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -40,7 +40,7 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
     localStorage.setItem('language', lang);
   };
 
-  const t = (key: string) => {
+  const t = (key: string, params?: Record<string, string>) => {
     const keys = key.split('.');
     let result: any = translations[language];
     
@@ -52,7 +52,16 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
       }
     }
     
-    return typeof result === 'string' ? result : key;
+    let finalResult = typeof result === 'string' ? result : key;
+    
+    // 处理参数替换，例如 {username}
+    if (params && typeof finalResult === 'string') {
+      Object.entries(params).forEach(([paramKey, paramValue]) => {
+        finalResult = finalResult.replace(new RegExp(`\\{${paramKey}\\}`), paramValue);
+      });
+    }
+    
+    return finalResult;
   };
 
   return (

@@ -111,6 +111,18 @@ const translations: Translations = {
         bubble: '麻烦点个赞吧～ 😊',
         dailyLimit: '谢谢啦😘，今天已经不能再点赞啦💕',
         thanks: '💕感谢点赞！！💕😘'
+      },
+      hiCard: {
+        greeting: {
+          morning: '早上好',
+          afternoon: '下午好',
+          evening: '晚上好',
+          night: '晚安'
+        },
+        introduction: '我是 {username}，很高兴认识你！'
+      },
+      navCard: {
+        mode: '混乱模式'
       }
     },
     home: {
@@ -352,6 +364,18 @@ const translations: Translations = {
         bubble: 'Please like this post～ 😊',
         dailyLimit: 'Thank you! 😘 You can\'t like again today 💕',
         thanks: '💕 Thanks for liking! 💕😘'
+      },
+      hiCard: {
+        greeting: {
+          morning: 'Good Morning',
+          afternoon: 'Good Afternoon',
+          evening: 'Good Evening',
+          night: 'Good Night'
+        },
+        introduction: "I'm {username}, Nice to meet you!"
+      },
+      navCard: {
+        mode: 'Chaos Mode'
       }
     },
     home: {
@@ -593,6 +617,18 @@ const translations: Translations = {
         bubble: '麻煩點個讚吧～ 😊',
         dailyLimit: '謝謝啦😘，今天已經不能再點讚啦💕',
         thanks: '💕感謝點讚！！💕😘'
+      },
+      hiCard: {
+        greeting: {
+          morning: '早上好',
+          afternoon: '下午好',
+          evening: '晚上好',
+          night: '晚安'
+        },
+        introduction: '我是 {username}，很高興認識你！'
+      },
+      navCard: {
+        mode: '狂暴模式'
       }
     },
     home: {
