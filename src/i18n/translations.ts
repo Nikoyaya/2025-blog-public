@@ -106,6 +106,11 @@ const translations: Translations = {
         title: '帽子图片',
         current: '当前使用',
         flip: '左右翻转'
+      },
+      like: {
+        bubble: '麻烦点个赞吧～ 😊',
+        dailyLimit: '谢谢啦😘，今天已经不能再点赞啦💕',
+        thanks: '💕感谢点赞！！💕😘'
       }
     },
     home: {
@@ -342,6 +347,11 @@ const translations: Translations = {
         title: 'Hat Images',
         current: 'Current',
         flip: 'Flip Left/Right'
+      },
+      like: {
+        bubble: 'Please like this post～ 😊',
+        dailyLimit: 'Thank you! 😘 You can\'t like again today 💕',
+        thanks: '💕 Thanks for liking! 💕😘'
       }
     },
     home: {
@@ -578,6 +588,11 @@ const translations: Translations = {
         title: '帽子圖片',
         current: '目前使用',
         flip: '左右翻轉'
+      },
+      like: {
+        bubble: '麻煩點個讚吧～ 😊',
+        dailyLimit: '謝謝啦😘，今天已經不能再點讚啦💕',
+        thanks: '💕感謝點讚！！💕😘'
       }
     },
     home: {

@@ -23,7 +23,11 @@ export default function LikePosition() {
 
 	return (
 		<HomeDraggableLayer cardKey='likePosition' x={x} y={y} width={styles.width} height={styles.height}>
-			<motion.div className='absolute max-sm:static' initial={{ left: x, top: y }} animate={{ left: x, top: y }}>
+			<motion.div 
+				className='absolute max-sm:relative max-sm:mt-6 max-sm:mx-auto' 
+				initial={{ left: x, top: y }} 
+				animate={{ left: x, top: y }}
+			>
 				{siteContent.enableChristmas && (
 					<>
 						<img

@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { BLOG_SLUG_KEY } from '@/consts'
+import { useLanguage } from '@/i18n/context'
 
 type LikeButtonProps = {
 	slug?: string
@@ -27,6 +28,7 @@ export default function LikeButton({ slug = 'amis', className }: LikeButtonProps
 	const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number }>>([])
 	const [count, setCount] = useState(0)
 	const [loading, setLoading] = useState(false)
+	const { t } = useLanguage()
 
 	useEffect(() => {
 		if (justLiked) {
@@ -94,7 +96,7 @@ export default function LikeButton({ slug = 'amis', className }: LikeButtonProps
 			
 			// 如果24小时内已经点过赞，直接显示限制提示
 			if (lastLikeTime && now - parseInt(lastLikeTime) < oneDay) {
-				toast('谢谢啦😘，今天已经不能再点赞啦💕')
+				toast(t('siteSettings.like.dailyLimit'))
 				setLoading(false)
 				return
 			}
@@ -137,14 +139,14 @@ export default function LikeButton({ slug = 'amis', className }: LikeButtonProps
 				if (typeof window !== 'undefined') {
 					localStorage.setItem('last_like_time_' + slug, now.toString())
 				}
-				toast('谢谢啦😘，今天已经不能再点赞啦💕')
+				toast(t('siteSettings.like.dailyLimit'))
 			} else {
 				// 记录点赞时间
 				if (typeof window !== 'undefined') {
 					localStorage.setItem('last_like_time_' + slug, now.toString())
 				}
 				// 显示感谢点赞的提示
-				toast('💕感谢点赞！！💕😘')
+				toast(t('siteSettings.like.thanks'))
 				// 更新点赞数
 				if (typeof data.data === 'number') {
 					setCount(data.data)
@@ -165,14 +167,14 @@ export default function LikeButton({ slug = 'amis', className }: LikeButtonProps
 			
 			// 如果24小时内已经点过赞，显示限制提示
 			if (lastLikeTime && now - parseInt(lastLikeTime) < oneDay) {
-				toast('谢谢啦😘，今天已经不能再点赞啦💕')
+				toast(t('siteSettings.like.dailyLimit'))
 			} else {
 				// 记录点赞时间
 				if (typeof window !== 'undefined') {
 					localStorage.setItem('last_like_time_' + slug, now.toString())
 				}
 				// 即使出错也显示感谢提示
-				toast('💕感谢点赞！！💕😘')
+				toast(t('siteSettings.like.thanks'))
 				// 本地增加点赞数作为降级方案
 				setCount(prev => prev + 1)
 			}
@@ -185,23 +187,24 @@ export default function LikeButton({ slug = 'amis', className }: LikeButtonProps
 		<div className='relative inline-block'>
 			{/* 聊天气泡提示 */}
 			<motion.div
-				className='absolute top-[-48px] left-1/2 transform -translate-x-[60%] z-10 max-w-sm w-40 rounded-[40px] bg-card border px-4 py-2'
+				className='absolute top-[-64px] left-1/2 transform -translate-x-1/2 z-0 max-w-md w-auto min-w-40 px-4 py-2 rounded-[40px] bg-card border pointer-events-none'
 				style={{ boxShadow: '0 40px 50px -32px rgba(0, 0, 0, 0.05)', backdropFilter: 'blur(4px)' }}
 				initial={{ opacity: 0, y: 10, scale: 0.8 }}
 				animate={{ opacity: 1, y: 0, scale: 1 }}
 				transition={{ delay: 1, duration: 0.5 }}
 			>
 				<div className='text-sm font-medium text-gray-800 text-center'>
-					麻烦点个赞吧～ 😊
+					{t('siteSettings.like.bubble')}
 				</div>
-				{/* 气泡尾巴 - 改进版 */}
-				<div className='absolute -bottom-2 left-[40%] transform -translate-x-1/2'>
+				{/* 气泡尾巴 - 暂时注释掉
+				<div className='absolute -bottom-2 left-1/2 transform -translate-x-1/2'>
 					<div className='h-4 w-4 bg-transparent'>
 						<div className='relative h-full w-full'>
 							<div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-45 h-3 w-3 bg-card border-t border-l rounded-sm'></div>
 						</div>
 					</div>
 				</div>
+				*/}
 			</motion.div>
 			
 			<motion.button
