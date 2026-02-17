@@ -141,6 +141,7 @@ export default function MusicCard() {
 			setProgress(0)
 
 			if (isPlaying) {
+			if (isPlaying) {
 				audioRef.current.play().catch(console.error)
 			}
 		}
@@ -285,6 +286,7 @@ export default function MusicCard() {
 				<>
 					<div className="fixed inset-0 bg-black/50 z-40" onClick={togglePlaylist} />
 					<div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+						<div className="bg-card/80 backdrop-blur-lg p-4 rounded-2xl shadow-xl max-h-96 overflow-y-auto w-80 border border-white/20 scrollbar-none">
 						<div className="bg-card/80 backdrop-blur-lg p-4 rounded-2xl shadow-xl max-h-96 overflow-y-auto w-80 border border-white/20 scrollbar-none">
 							<div className="flex justify-between items-center mb-4">
 								<h3 className="text-lg font-semibold text-primary">音乐列表</h3>
