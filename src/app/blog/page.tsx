@@ -30,7 +30,7 @@ export default function BlogPage() {
 	const { items, loading } = useBlogIndex()
 	const { categories: categoriesFromServer } = useCategories()
 	const { isRead } = useReadArticles()
-	const { isAuth, setPrivateKey } = useAuthStore()
+	const { isAuth, setPrivateKey, refreshAuthState } = useAuthStore()
 	const { siteContent } = useConfigStore()
 	const hideEditButton = siteContent.hideEditButton ?? false
 	const enableCategories = siteContent.enableCategories ?? false
@@ -154,10 +154,12 @@ export default function BlogPage() {
 			setEditableItems(items)
 			setSelectedSlugs(new Set())
 		} else {
+			// 进入编辑模式时刷新认证状态
+			refreshAuthState()
 			setEditableItems(items)
 			setEditMode(true)
 		}
-	}, [editMode, items])
+	}, [editMode, items, refreshAuthState])
 
 	const toggleSelect = useCallback((slug: string) => {
 		setSelectedSlugs(prev => {

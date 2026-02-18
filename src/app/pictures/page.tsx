@@ -32,7 +32,7 @@ export default function Page() {
 	const keyInputRef = useRef<HTMLInputElement>(null)
 	const router = useRouter()
 
-	const { isAuth, setPrivateKey } = useAuthStore()
+	const { isAuth, setPrivateKey, refreshAuthState } = useAuthStore()
 	const { siteContent } = useConfigStore()
 	const hideEditButton = siteContent.hideEditButton ?? false
 	const { t } = useLanguage()
@@ -69,6 +69,12 @@ export default function Page() {
 		setPictures(prev => [...prev, newPicture])
 		setImageItems(newMap)
 		setIsUploadDialogOpen(false)
+	}
+	
+	const handleEnterEditMode = () => {
+		// 进入编辑模式时刷新认证状态
+		refreshAuthState()
+		setIsEditMode(true)
 	}
 
 	const handleDeleteSingleImage = (pictureId: string, imageIndex: number | 'single') => {
@@ -275,12 +281,12 @@ export default function Page() {
 				) : (
 					!hideEditButton && isLoggedIn && (
 									<motion.button
-										whileHover={{ scale: 1.05 }}
-										whileTap={{ scale: 0.95 }}
-										onClick={() => setIsEditMode(true)}
-										className='rounded-xl border bg-white/60 px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
-										{t('about.edit')}
-									</motion.button>
+												whileHover={{ scale: 1.05 }}
+												whileTap={{ scale: 0.95 }}
+												onClick={handleEnterEditMode}
+												className='rounded-xl border bg-white/60 px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
+												{t('about.edit')}
+											</motion.button>
 								)
 				)}
 			</motion.div>

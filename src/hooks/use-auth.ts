@@ -31,7 +31,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 	},
 
 	refreshAuthState: async () => {
-		set({ isAuth: await checkAuth() })
+		const isAuth = await checkAuth()
+		set({ isAuth })
 	},
 
 	getAuthToken: async () => {

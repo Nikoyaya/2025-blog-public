@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { readFileAsText } from '@/lib/file-utils'
 import { toast } from 'sonner'
 import { pushBlog } from '../services/push-blog'
@@ -9,8 +9,13 @@ import { useLanguage } from '@/i18n/context'
 
 export function usePublish() {
 	const { loading, setLoading, form, cover, images, mode, originalSlug } = useWriteStore()
-	const { isAuth, setPrivateKey } = useAuthStore()
+	const { isAuth, setPrivateKey, refreshAuthState } = useAuthStore()
 	const { t } = useLanguage()
+
+	// 组件挂载时刷新认证状态
+	useEffect(() => {
+		refreshAuthState()
+	}, [refreshAuthState])
 
 	const onChoosePrivateKey = useCallback(
 		async (file: File) => {

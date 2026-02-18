@@ -51,6 +51,8 @@ export default function ConfigDialog({ open, onClose }: ConfigDialogProps) {
 			setBackgroundImageUploads({})
 			setSocialButtonImageUploads({})
 			setActiveTab('site')
+			// 刷新GitHub认证状态，确保按钮状态正确显示
+			useAuthStore.getState().refreshAuthState()
 		}
 	}, [open, siteContent, cardStyles])
 

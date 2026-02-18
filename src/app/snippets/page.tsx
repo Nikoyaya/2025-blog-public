@@ -25,7 +25,7 @@ export default function Page() {
 	const [newSnippet, setNewSnippet] = useState('')
 	const keyInputRef = useRef<HTMLInputElement>(null)
 
-	const { isAuth, setPrivateKey } = useAuthStore()
+	const { isAuth, setPrivateKey, refreshAuthState } = useAuthStore()
 	const { siteContent } = useConfigStore()
 	const hideEditButton = siteContent.hideEditButton ?? false
 	const { t } = useLanguage()
@@ -88,6 +88,12 @@ export default function Page() {
 		setDraftSnippets(snippets)
 		setNewSnippet('')
 		setIsManageOpen(true)
+	}
+	
+	const handleEnterEditMode = () => {
+		// 进入编辑模式时刷新认证状态
+		refreshAuthState()
+		setIsEditMode(true)
 	}
 
 	const handleAddDraft = () => {
@@ -168,12 +174,12 @@ export default function Page() {
 				) : (
 					!hideEditButton && isLoggedIn && (
 									<motion.button
-										whileHover={{ scale: 1.05 }}
-										whileTap={{ scale: 0.95 }}
-										onClick={() => setIsEditMode(true)}
-										className='bg-card rounded-xl border px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
-										{t('about.edit')}
-									</motion.button>
+												whileHover={{ scale: 1.05 }}
+												whileTap={{ scale: 0.95 }}
+												onClick={handleEnterEditMode}
+												className='bg-card rounded-xl border px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
+												{t('about.edit')}
+											</motion.button>
 								)
 				)}
 			</motion.div>
