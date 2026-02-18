@@ -123,7 +123,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
 								// 检查是否包含危险字符或路径
 								var dangerousPatterns = [
-									/\.\./, // 路径遍历
 									/\bjavascript:/i, // javascript 协议
 									/\bdata:/i, // data 协议
 									/\bvbscript:/i, // vbscript 协议
@@ -135,29 +134,28 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 									/\bfile:/i // file 协议
 								];
 
+								// 只检查完整URL中的危险协议，不检查路径中的内容
+								var fullUrl = urlObj.href;
 								for (var pattern of dangerousPatterns) {
-									if (pattern.test(url)) {
-										log('Unsafe URL pattern detected: ' + url, 'warn');
+									if (pattern.test(fullUrl)) {
+										log('Unsafe URL pattern detected: ' + fullUrl, 'warn');
 										return false;
 									}
 								}
 
-								// 检查是否是允许的域名
-								var isAllowedDomain = config.allowedDomains.some(domain => {
-									return urlObj.hostname === domain || urlObj.hostname.endsWith('.' + domain);
-								});
-
-								if (!isAllowedDomain) {
-									log('Domain not in allowed list: ' + urlObj.hostname, 'info');
-									// 不再阻止未在允许列表中的域名，只阻止危险URL
+								// 对于HTTP和HTTPS链接，直接视为安全
+								if (urlObj.protocol === 'http:' || urlObj.protocol === 'https:') {
+									log('Allowed HTTP/HTTPS URL: ' + fullUrl, 'info');
+									return true;
 								}
 
 								// 如果通过了所有检查，视为安全
-								log('Allowed URL: ' + url, 'info');
+								log('Allowed URL: ' + fullUrl, 'info');
 								return true;
 							} catch (e) {
-								log('Invalid URL: ' + url, 'error');
-								return false;
+								// 如果URL解析失败，可能是相对路径或特殊格式，视为安全
+								log('URL parsing failed, assuming safe: ' + url, 'info');
+								return true;
 							}
 						}
 
