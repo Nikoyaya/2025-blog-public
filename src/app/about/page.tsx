@@ -11,6 +11,7 @@ import LikeButton from '@/components/like-button'
 import GithubSVG from '@/svgs/github.svg'
 import initialData from './list.json'
 import { useLanguage } from '@/i18n/context'
+import { useLocalAuthStore } from '@/hooks/use-local-auth'
 
 export default function Page() {
 	const [data, setData] = useState<AboutData>(initialData as AboutData)
@@ -25,6 +26,7 @@ export default function Page() {
 	const { content, loading } = useMarkdownRender(data.content)
 	const hideEditButton = siteContent.hideEditButton ?? false
 	const { t } = useLanguage()
+	const { isLoggedIn } = useLocalAuthStore()
 
 	const handleChoosePrivateKey = async (file: File) => {
 		try {
@@ -195,15 +197,15 @@ export default function Page() {
 							</motion.button>
 						</>
 					) : (
-						!hideEditButton && (
-							<motion.button
-								whileHover={{ scale: 1.05 }}
-								whileTap={{ scale: 0.95 }}
-								onClick={handleEnterEditMode}
-								className='rounded-xl border bg-white/60 px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
-								{t('about.edit')}
-							</motion.button>
-						)
+						!hideEditButton && isLoggedIn && (
+									<motion.button
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+										onClick={handleEnterEditMode}
+										className='rounded-xl border bg-white/60 px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
+										{t('about.edit')}
+									</motion.button>
+								)
 					)}
 				</motion.div>
 		</>

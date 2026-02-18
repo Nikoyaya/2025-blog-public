@@ -1,11 +1,11 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { motion } from 'motion/react'
 
-dayjs.extend(weekOfYear)
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { ANIMATION_DELAY, INIT_DELAY } from '@/consts'
@@ -22,6 +22,7 @@ import { saveBlogEdits } from './services/save-blog-edits'
 import { Check } from 'lucide-react'
 import { CategoryModal } from './components/category-modal'
 import { useLanguage } from '@/i18n/context'
+import { useLocalAuthStore } from '@/hooks/use-local-auth'
 
 type DisplayMode = 'day' | 'week' | 'month' | 'year' | 'category'
 
@@ -34,6 +35,7 @@ export default function BlogPage() {
 	const hideEditButton = siteContent.hideEditButton ?? false
 	const enableCategories = siteContent.enableCategories ?? false
 	const { t } = useLanguage()
+	const { isLoggedIn } = useLocalAuthStore()
 
 	const keyInputRef = useRef<HTMLInputElement>(null)
 	const [editMode, setEditMode] = useState(false)
@@ -531,15 +533,15 @@ export default function BlogPage() {
 										</motion.button>
 									</>
 								) : (
-									!hideEditButton && (
-										<motion.button
-											whileHover={{ scale: 1.05 }}
-											whileTap={{ scale: 0.95 }}
-											onClick={toggleEditMode}
-											className='bg-card rounded-xl border px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
-											{t('about.edit')}
-										</motion.button>
-									)
+									!hideEditButton && isLoggedIn && (
+									<motion.button
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+										onClick={toggleEditMode}
+										className='bg-card rounded-xl border px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
+										{t('about.edit')}
+									</motion.button>
+								)
 								)}
 			</motion.div>
 		</div>

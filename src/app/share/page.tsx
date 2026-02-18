@@ -12,6 +12,7 @@ import initialList from './list.json'
 import type { Share } from './components/share-card'
 import type { LogoItem } from './components/logo-upload-dialog'
 import { useLanguage } from '@/i18n/context'
+import { useLocalAuthStore } from '@/hooks/use-local-auth'
 
 export default function Page() {
 	const [shares, setShares] = useState<Share[]>(initialList as Share[])
@@ -27,6 +28,7 @@ export default function Page() {
 	const { siteContent } = useConfigStore()
 	const hideEditButton = siteContent.hideEditButton ?? false
 	const { t } = useLanguage()
+	const { isLoggedIn } = useLocalAuthStore()
 
 	const handleUpdate = (updatedShare: Share, oldShare: Share, logoItem?: LogoItem) => {
 		setShares(prev => prev.map(s => (s.url === oldShare.url ? updatedShare : s)))
@@ -161,15 +163,15 @@ export default function Page() {
 				</motion.button>
 					</>
 				) : (
-					!hideEditButton && (
-						<motion.button
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						onClick={() => setIsEditMode(true)}
-						className='bg-card rounded-xl border px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
-						{t('about.edit')}
-					</motion.button>
-					)
+					!hideEditButton && isLoggedIn && (
+									<motion.button
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+										onClick={() => setIsEditMode(true)}
+										className='bg-card rounded-xl border px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
+										{t('about.edit')}
+									</motion.button>
+								)
 				)}
 			</motion.div>
 

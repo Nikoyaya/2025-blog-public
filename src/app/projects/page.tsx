@@ -11,6 +11,7 @@ import { useConfigStore } from '@/app/(home)/stores/config-store'
 import initialList from './list.json'
 import type { ImageItem } from './components/image-upload-dialog'
 import { useLanguage } from '@/i18n/context'
+import { useLocalAuthStore } from '@/hooks/use-local-auth'
 
 export default function Page() {
 	const [projects, setProjects] = useState<Project[]>(initialList as Project[])
@@ -26,6 +27,7 @@ export default function Page() {
 	const { siteContent } = useConfigStore()
 	const hideEditButton = siteContent.hideEditButton ?? false
 	const { t } = useLanguage()
+	const { isLoggedIn } = useLocalAuthStore()
 
 	const handleUpdate = (updatedProject: Project, oldProject: Project, imageItem?: ImageItem) => {
 		setProjects(prev => prev.map(p => (p.url === oldProject.url ? updatedProject : p)))
@@ -165,15 +167,15 @@ export default function Page() {
 				</motion.button>
 					</>
 				) : (
-					!hideEditButton && (
-						<motion.button
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						onClick={() => setIsEditMode(true)}
-						className='bg-card rounded-xl border px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
-						{t('about.edit')}
-					</motion.button>
-					)
+					!hideEditButton && isLoggedIn && (
+									<motion.button
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+										onClick={() => setIsEditMode(true)}
+										className='bg-card rounded-xl border px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
+										{t('about.edit')}
+									</motion.button>
+								)
 				)}
 			</motion.div>
 

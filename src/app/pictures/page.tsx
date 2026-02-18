@@ -12,6 +12,7 @@ import { useConfigStore } from '@/app/(home)/stores/config-store'
 import type { ImageItem } from '../projects/components/image-upload-dialog'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/i18n/context'
+import { useLocalAuthStore } from '@/hooks/use-local-auth'
 
 export interface Picture {
 	id: string
@@ -35,6 +36,7 @@ export default function Page() {
 	const { siteContent } = useConfigStore()
 	const hideEditButton = siteContent.hideEditButton ?? false
 	const { t } = useLanguage()
+	const { isLoggedIn } = useLocalAuthStore()
 
 	const handleUploadSubmit = ({ images, description }: { images: ImageItem[]; description: string }) => {
 		const now = new Date().toISOString()
@@ -271,15 +273,15 @@ export default function Page() {
 				</motion.button>
 					</>
 				) : (
-					!hideEditButton && (
-						<motion.button
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						onClick={() => setIsEditMode(true)}
-						className='rounded-xl border bg-white/60 px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
-						{t('about.edit')}
-					</motion.button>
-					)
+					!hideEditButton && isLoggedIn && (
+									<motion.button
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+										onClick={() => setIsEditMode(true)}
+										className='rounded-xl border bg-white/60 px-6 py-2 text-sm backdrop-blur-sm transition-colors hover:bg-white/80'>
+										{t('about.edit')}
+									</motion.button>
+								)
 				)}
 			</motion.div>
 
