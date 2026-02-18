@@ -48,10 +48,15 @@ export default function Home() {
 		checkExpiration()
 
 		const handleKeyDown = (e: KeyboardEvent) => {
-			// 打开配置对话框
+			// 打开配置对话框（仅登录状态下可用）
 			if ((e.ctrlKey || e.metaKey) && e.key === ',') {
 				e.preventDefault()
-				setConfigDialogOpen(true)
+				if (isLoggedIn) {
+					setConfigDialogOpen(true)
+				} else {
+					// 未登录状态下打开登录模态框
+					setLoginModalOpen(true)
+				}
 			}
 			// 打开登录模态框或登出
 			if ((e.ctrlKey || e.metaKey) && (e.key === 'L' || e.key === 'l')) {
