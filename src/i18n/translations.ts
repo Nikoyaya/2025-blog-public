@@ -3,7 +3,7 @@ import { Translations } from './types';
 const translations: Translations = {
   'zh-CN': {
     nav: {
-      blog: '近期文章',
+      blog: '所有文章',
       projects: '我的项目',
       about: '关于网站',
       share: '推荐分享',
@@ -311,7 +311,7 @@ const translations: Translations = {
   },
   'en': {
     nav: {
-      blog: 'Recent Posts',
+      blog: 'All Posts',
       projects: 'My Projects',
       about: 'About Site',
       share: 'Recommendations',
@@ -619,7 +619,7 @@ const translations: Translations = {
   },
   'zh-TW': {
     nav: {
-      blog: '近期文章',
+      blog: '所有文章',
       projects: '我的專案',
       about: '關於網站',
       share: '推薦分享',
