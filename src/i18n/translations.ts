@@ -3,12 +3,12 @@ import { Translations } from './types';
 const translations: Translations = {
   'zh-CN': {
     nav: {
-      blog: '所有文章',
-      projects: '我的项目',
-      comments: '评论区',
-      share: '推荐分享',
-      bloggers: '优秀博客'
-    },
+    blog: '所有文章',
+    projects: '我的项目',
+    comments: '留言区',
+    share: '推荐分享',
+    bloggers: '优秀博客'
+  },
     password: {
       required: '需要密码',
       pleaseEnter: '请输入访问密码以继续',
@@ -157,13 +157,13 @@ const translations: Translations = {
         mode: '混乱模式'
       },
       comment: {
-        title: '评论',
-        placeholder: '请输入您的评论...',
+        title: '留言',
+        placeholder: '请输入您的留言...',
         noServer: '请在配置中设置Waline服务器地址',
         locale: 'zh-CN'
       },
       waline: {
-        title: 'Waline 评论配置',
+        title: 'Waline 留言配置',
         serverURL: '服务器 URL',
         serverURLHint: '需要部署 Waline 后端服务，或使用第三方服务',
         theme: '主题',
@@ -178,7 +178,12 @@ const translations: Translations = {
         requiredMetaNick: '昵称',
         requiredMetaMail: '邮箱',
         requiredMetaLink: '网站',
-        pageview: '启用页面访问统计'
+        pageview: '启用页面访问统计',
+        nick: '昵称:',
+        mail: '邮箱:',
+        placeholder: '欢迎留言！(填写邮箱可在被回复时收到邮件提醒)',
+        nickPlaceholder: '请输入昵称',
+        mailPlaceholder: '请输入邮箱（用于接收回复通知）'
       }
     },
     home: {
@@ -312,12 +317,12 @@ const translations: Translations = {
   },
   'en': {
     nav: {
-      blog: 'All Posts',
-      projects: 'My Projects',
-      comments: 'Comments Section',
-      share: 'Recommendations',
-      bloggers: 'Great Blogs'
-    },
+    blog: 'All Articles',
+    projects: 'My Projects',
+    comments: 'Guestbook',
+    share: 'Recommendations',
+    bloggers: 'Great Blogs'
+  },
     password: {
       required: 'Password Required',
       pleaseEnter: 'Please enter the password to continue',
@@ -466,13 +471,13 @@ const translations: Translations = {
         mode: 'Chaos Mode'
       },
       comment: {
-        title: 'Comments',
-        placeholder: 'Please enter your comment...',
+        title: 'Messages',
+        placeholder: 'Please enter your message...',
         noServer: 'Please set up Waline server address in configuration',
         locale: 'en-US'
       },
       waline: {
-        title: 'Waline Comment Configuration',
+        title: 'Waline Guestbook Configuration',
         serverURL: 'Server URL',
         serverURLHint: 'Need to deploy Waline backend service, or use third-party service',
         theme: 'Theme',
@@ -487,7 +492,12 @@ const translations: Translations = {
         requiredMetaNick: 'Nickname',
         requiredMetaMail: 'Email',
         requiredMetaLink: 'Website',
-        pageview: 'Enable page view statistics'
+        pageview: 'Enable page view statistics',
+        nick: 'Nickname:',
+        mail: 'Email:',
+        placeholder: 'Welcome to leave a message! (Fill in your email to receive replies)',
+        nickPlaceholder: 'Please enter nickname',
+        mailPlaceholder: 'Please enter email (for reply notifications)'
       }
     },
     home: {
@@ -621,12 +631,12 @@ const translations: Translations = {
   },
   'zh-TW': {
     nav: {
-      blog: '所有文章',
-      projects: '我的專案',
-      comments: '評論區',
-      share: '推薦分享',
-      bloggers: '優秀部落格'
-    },
+    blog: '所有文章',
+    projects: '我的專案',
+    comments: '留言區',
+    share: '推薦分享',
+    bloggers: '優秀部落格'
+  },
     password: {
       required: '需要密碼',
       pleaseEnter: '請輸入訪問密碼以繼續',
@@ -775,13 +785,13 @@ const translations: Translations = {
         mode: '狂暴模式'
       },
       comment: {
-        title: '評論',
-        placeholder: '請輸入您的評論...',
+        title: '留言',
+        placeholder: '請輸入您的留言...',
         noServer: '請在配置中設定Waline伺服器地址',
         locale: 'zh-TW'
       },
       waline: {
-        title: 'Waline 評論配置',
+        title: 'Waline 留言配置',
         serverURL: '伺服器 URL',
         serverURLHint: '需要部署 Waline 後端服務，或使用第三方服務',
         theme: '主題',
@@ -796,7 +806,12 @@ const translations: Translations = {
         requiredMetaNick: '暱稱',
         requiredMetaMail: '郵箱',
         requiredMetaLink: '網站',
-        pageview: '啟用頁面訪問統計'
+        pageview: '啟用頁面訪問統計',
+        nick: '暱稱:',
+        mail: '郵箱:',
+        placeholder: '歡迎留言！(填寫郵箱可在被回覆時收到郵件提醒)',
+        nickPlaceholder: '請輸入暱稱',
+        mailPlaceholder: '請輸入郵箱（用於接收回覆通知）'
       }
     },
     home: {

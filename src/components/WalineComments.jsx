@@ -12,7 +12,7 @@ export default function WalineComments({ path }) {
   const walineInstanceRef = useRef(null);
   const containerRef = useRef(null);
   const { siteContent } = useConfigStore();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     // 销毁之前的实例
@@ -34,7 +34,12 @@ export default function WalineComments({ path }) {
       pageview: true,  // 开启浏览量统计
       login: 'disable', // 完全禁用登录，纯匿名评论
 
-      
+      // 自定义语言配置 - 表单字段标签和placeholder
+      locale: {
+        nick: t('siteSettings.waline.nick'),
+        mail: t('siteSettings.waline.mail'),
+        placeholder: t('siteSettings.waline.placeholder')
+      },
 
       // 开启评论数统计
       comment: true,
@@ -47,19 +52,47 @@ export default function WalineComments({ path }) {
       requiredMeta: ['nick', 'mail'], // 必填字段：昵称和邮箱
       
       // 自定义配置
-      placeholder: '欢迎留言！(填写邮箱可在被回复时收到邮件提醒)',
       avatar: 'mp', // 头像生成方式
       meta: ['nick', 'mail'], // 显示的表单字段
       pageSize: 10, // 每页评论数
       noCopyright: true, // 禁用显示版权信息（默认开启）
     });
 
+    // 为昵称和邮箱输入框添加多语言placeholder
+    const setInputPlaceholders = () => {
+      // 查找昵称输入框
+      const nickInputs = containerRef.current.querySelectorAll('input[name="nick"]');
+      nickInputs.forEach(input => {
+        input.placeholder = t('siteSettings.waline.nickPlaceholder');
+      });
+      
+      // 查找邮箱输入框
+      const mailInputs = containerRef.current.querySelectorAll('input[name="mail"]');
+      mailInputs.forEach(input => {
+        input.placeholder = t('siteSettings.waline.mailPlaceholder');
+      });
+    };
+    
+    // 初始设置placeholder
+    setTimeout(setInputPlaceholders, 100);
+    
+    // 使用MutationObserver监测DOM变化，为动态添加的输入框设置placeholder
+    const observer = new MutationObserver(() => {
+      setInputPlaceholders();
+    });
+    
+    observer.observe(containerRef.current, {
+      childList: true,
+      subtree: true
+    });
+
     return () => {
       if (walineInstanceRef.current) {
         walineInstanceRef.current.destroy();
       }
+      observer.disconnect();
     };
-  }, [path, language]); // 路径或语言变化时重新初始化
+  }, [path, language, t]); // 路径或语言变化时重新初始化
 
   return (
     <div className="waline-comments">

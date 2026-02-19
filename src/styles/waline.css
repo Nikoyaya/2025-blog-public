@@ -145,6 +145,13 @@ span.wl-browser {
   backdrop-filter: none !important;
 }
 
+/* 头部输入框样式 - 只修改颜色，保留官方排版 */
+.wl-header input {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(15px) !important;
+}
+
 /* 文本域样式 */
 .waline-editor textarea {
   min-height: 120px;
