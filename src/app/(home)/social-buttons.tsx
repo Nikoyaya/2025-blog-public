@@ -15,6 +15,8 @@ import XiaohongshuSVG from '@/svgs/小红书.svg'
 import ZhihuSVG from '@/svgs/知乎.svg'
 import BilibiliSVG from '@/svgs/哔哩哔哩.svg'
 import QqSVG from '@/svgs/qq.svg'
+import GiteeSVG from '@/svgs/gitee.svg'
+import QqGroupSVG from '@/svgs/qq-group.svg'
 import { motion, AnimatePresence } from 'motion/react'
 import { useEffect, useState, useMemo, useRef } from 'react'
 import type React from 'react'
@@ -39,6 +41,8 @@ type SocialButtonType =
 	| 'zhihu'
 	| 'bilibili'
 	| 'qq'
+	| 'gitee'
+	| 'qq-group'
 
 interface SocialButtonConfig {
 	id: string
@@ -124,6 +128,8 @@ export default function SocialButtons() {
 		zhihu: ZhihuSVG,
 		bilibili: BilibiliSVG,
 		qq: QqSVG,
+		gitee: GiteeSVG,
+		'qq-group': QqGroupSVG,
 		link: () => null
 	}
 
@@ -156,17 +162,18 @@ export default function SocialButtons() {
 			)
 		}
 
-		if (button.type === 'email' || button.type === 'wechat' || button.type === 'qq') {
-			const messageMap: Record<'email' | 'wechat' | 'qq', string> = {
+		if (button.type === 'email' || button.type === 'wechat' || button.type === 'qq' || button.type === 'qq-group') {
+			const messageMap: Record<'email' | 'wechat' | 'qq' | 'qq-group', string> = {
 				email: '邮箱已复制到剪贴板',
 				wechat: '微信号已复制到剪贴板',
-				qq: 'QQ号已复制到剪贴板'
+				qq: 'QQ号已复制到剪贴板',
+				'qq-group': 'QQ群号已复制到剪贴板'
 			}
 
 			const isImagePath = button.value.startsWith('/images/social-buttons/')
 			const isOpen = openDropdowns[button.id] || false
 
-			if (isImagePath && (button.type === 'wechat' || button.type === 'qq')) {
+			if (isImagePath && (button.type === 'wechat' || button.type === 'qq' || button.type === 'qq-group')) {
 				return (
 					<div key={button.id} className='relative'>
 						<motion.button

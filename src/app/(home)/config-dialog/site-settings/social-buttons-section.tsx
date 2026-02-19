@@ -24,6 +24,8 @@ type SocialButtonType =
 	| 'zhihu'
 	| 'bilibili'
 	| 'qq'
+	| 'gitee'
+	| 'qq-group'
 
 interface SocialButtonConfig {
 	id: string
@@ -156,11 +158,14 @@ export function SocialButtonsSection({ formData, setFormData, socialButtonImageU
 							className='w-24'
 							options={[
 								{ value: 'github', label: 'Github' },
+								{ value: 'gitee', label: 'Gitee' },
 								{ value: 'juejin', label: '掘金' },
 								{ value: 'email', label: '邮箱' },
 								{ value: 'x', label: 'X' },
 								{ value: 'tg', label: 'Telegram' },
 								{ value: 'wechat', label: '微信' },
+								{ value: 'qq', label: 'QQ' },
+								{ value: 'qq-group', label: 'QQ群' },
 								{ value: 'facebook', label: 'Facebook' },
 								{ value: 'tiktok', label: 'TikTok' },
 								{ value: 'instagram', label: 'Instagram' },
@@ -168,11 +173,10 @@ export function SocialButtonsSection({ formData, setFormData, socialButtonImageU
 								{ value: 'xiaohongshu', label: '小红书' },
 								{ value: 'zhihu', label: '知乎' },
 								{ value: 'bilibili', label: '哔哩哔哩' },
-								{ value: 'qq', label: 'QQ' },
 								{ value: 'link', label: '链接' }
 							]}
 						/>
-						{button.type === 'wechat' || button.type === 'qq' ? (
+						{button.type === 'wechat' || button.type === 'qq' || button.type === 'qq-group' ? (
 							<div className='flex flex-1 items-center gap-2'>
 								<input
 									ref={el => {
@@ -194,7 +198,7 @@ export function SocialButtonsSection({ formData, setFormData, socialButtonImageU
 											type='text'
 											value={button.value}
 											onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
-											placeholder={button.type === 'wechat' ? t('siteSettings.socialButtons.wechatPlaceholder') : t('siteSettings.socialButtons.qqPlaceholder')}
+											placeholder={button.type === 'wechat' ? t('siteSettings.socialButtons.wechatPlaceholder') : button.type === 'qq-group' ? 'QQ群号或二维码链接' : t('siteSettings.socialButtons.qqPlaceholder')}
 											className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
 										/>
 										<button type='button' onClick={() => handleRemoveImage(button.id)} className='text-xs text-red-500 hover:text-red-600'>
