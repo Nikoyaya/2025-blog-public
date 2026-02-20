@@ -50,7 +50,7 @@ export default function Home() {
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			// 打开配置对话框（仅登录状态下可用）
-			if ((e.ctrlKey || e.metaKey) && e.key === ',') {
+			if ((e.ctrlKey || e.metaKey) && (e.key === 'P' || e.key === 'p')) {
 				e.preventDefault()
 				if (isLoggedIn) {
 					setConfigDialogOpen(true)
