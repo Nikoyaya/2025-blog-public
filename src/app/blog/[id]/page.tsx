@@ -9,7 +9,7 @@ import { loadBlog, type BlogConfig } from '@/lib/load-blog'
 import { useReadArticles } from '@/hooks/use-read-articles'
 import LiquidGrass from '@/components/liquid-grass'
 import { useLanguage } from '@/i18n/context'
-import { useAuthStore } from '@/hooks/use-auth'
+import { useLocalAuthStore } from '@/hooks/use-local-auth'
 
 const origin = typeof window !== 'undefined' ? window.location.origin : ''
 
@@ -19,10 +19,10 @@ export default function Page() {
 	const router = useRouter()
 	const { markAsRead } = useReadArticles()
 	const { t } = useLanguage()
-	const { isAuth } = useAuthStore()
+	const { isLoggedIn, checkExpiration } = useLocalAuthStore()
 	useEffect(() => {
-		useAuthStore.getState().refreshAuthState()
-	}, [])
+		checkExpiration()
+	}, [checkExpiration])
 
 	const [blog, setBlog] = useState<{ config: BlogConfig; markdown: string; cover?: string } | null>(null)
 	const [error, setError] = useState<string | null>(null)
@@ -89,7 +89,7 @@ export default function Page() {
 			slug={slug}
 		/>
 
-		{isAuth && (
+		{isLoggedIn && (
 			<motion.button
 				initial={{ opacity: 0, scale: 0.6 }}
 				animate={{ opacity: 1, scale: 1 }}
