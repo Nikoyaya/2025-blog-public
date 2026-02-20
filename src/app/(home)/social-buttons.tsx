@@ -26,6 +26,7 @@ import { HomeDraggableLayer } from './home-draggable-layer'
 import { createPortal } from 'react-dom'
 import { useLanguage } from '@/i18n/context'
 
+// 社交按钮类型定义
 type SocialButtonType =
 	| 'github'
 	| 'juejin'
@@ -45,6 +46,7 @@ type SocialButtonType =
 	| 'gitee'
 	| 'qqGroup'
 
+// 社交按钮配置接口
 interface SocialButtonConfig {
 	id: string
 	type: SocialButtonType
@@ -53,6 +55,7 @@ interface SocialButtonConfig {
 	order: number
 }
 
+// 社交按钮组件
 export default function SocialButtons() {
 	const center = useCenterStore()
 	const { cardStyles, siteContent } = useConfigStore()
@@ -63,16 +66,21 @@ export default function SocialButtons() {
 	const order = maxSM && init ? 0 : styles.order
 	const delay = maxSM && init ? 0 : 100
 
+	// 排序按钮，根据order字段排序
 	const sortedButtons = useMemo(() => {
 		const buttons = (siteContent.socialButtons || []) as SocialButtonConfig[]
 		return [...buttons].sort((a, b) => a.order - b.order)
 	}, [siteContent.socialButtons])
 
+	// 显示状态，用于动画效果
 	const [showStates, setShowStates] = useState<Record<string, boolean>>({})
+	// 下拉菜单打开状态，用于二维码显示
 	const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({})
+	// 下拉菜单和按钮的引用，用于点击外部检测
 	const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({})
 	const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({})
 
+	// 初始化按钮显示动画
 	useEffect(() => {
 		const baseDelay = order * ANIMATION_DELAY * 1000
 
@@ -88,6 +96,7 @@ export default function SocialButtons() {
 		}, baseDelay)
 	}, [order, delay, sortedButtons])
 
+	// 点击外部关闭下拉菜单
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
 			const target = e.target as Node
@@ -110,11 +119,14 @@ export default function SocialButtons() {
 		}
 	}, [openDropdowns])
 
+	// 计算按钮的位置
 	const x = styles.offsetX !== null ? center.x + styles.offsetX : center.x + hiCardStyles.width / 2 - styles.width
 	const y = styles.offsetY !== null ? center.y + styles.offsetY : center.y + hiCardStyles.height / 2 + CARD_SPACING
 
+	// 容器还未显示，返回null
 	if (!showStates.container) return null
 
+	// 图标映射，将类型与SVG组件对应
 	const iconMap: Record<SocialButtonType, React.ComponentType<{ className?: string }>> = {
 			github: GithubSVG,
 			juejin: JuejinSVG,
@@ -135,9 +147,11 @@ export default function SocialButtons() {
 			link: () => null
 		}
 
+	// 渲染单个按钮
 	const renderButton = (button: SocialButtonConfig) => {
 		if (!showStates[button.id]) return null
 
+		// 通用动画属性
 		const commonProps = {
 			initial: { opacity: 0, scale: 0.6 } as const,
 			animate: { opacity: 1, scale: 1 } as const,
@@ -149,6 +163,7 @@ export default function SocialButtons() {
 		const hasLabel = Boolean(button.label)
 		const iconSize = hasLabel ? 'size-6' : 'size-8'
 
+		// GitHub按钮特殊样式
 		if (button.type === 'github') {
 			return (
 				<motion.a
@@ -164,7 +179,9 @@ export default function SocialButtons() {
 			)
 		}
 
+		// 邮箱、微信、QQ、QQ群按钮
 		if (button.type === 'email' || button.type === 'wechat' || button.type === 'qq' || button.type === 'qqGroup') {
+			// 复制成功消息映射
 			const messageMap: Record<'email' | 'wechat' | 'qq' | 'qqGroup', string> = {
 				email: t('siteSettings.socialButtons.copied.email'),
 				wechat: t('siteSettings.socialButtons.copied.wechat'),
@@ -172,11 +189,13 @@ export default function SocialButtons() {
 				qqGroup: t('siteSettings.socialButtons.copied.qqGroup')
 			}
 
+			// 判断值类型：图片路径、链接或账号
 			const safeValue = button.value || ''
 			const isImagePath = safeValue.startsWith('/images/social-buttons/')
 			const isLink = !isImagePath && (safeValue.startsWith('http://') || safeValue.startsWith('https://'))
 			const isOpen = openDropdowns[button.id] || false
 
+			// 图片类型：点击显示二维码
 			if (isImagePath && (button.type === 'wechat' || button.type === 'qq' || button.type === 'qqGroup')) {
 				return (
 					<div key={button.id} className='relative'>
@@ -197,6 +216,7 @@ export default function SocialButtons() {
 								<AnimatePresence>
 									{isOpen && (
 										<>
+											{/* 点击外部关闭的遮罩层 */}
 											<motion.div
 												initial={{ opacity: 0 }}
 												animate={{ opacity: 1 }}
@@ -204,6 +224,7 @@ export default function SocialButtons() {
 												onClick={() => setOpenDropdowns(prev => ({ ...prev, [button.id]: false }))}
 												className='fixed inset-0 z-40'
 											/>
+											{/* 二维码弹窗 */}
 											<motion.div
 												ref={el => {
 													dropdownRefs.current[button.id] = el
@@ -230,6 +251,7 @@ export default function SocialButtons() {
 				)
 			}
 
+			// 链接类型：点击跳转
 			if (isLink) {
 				return (
 					<motion.a
@@ -244,6 +266,7 @@ export default function SocialButtons() {
 				)
 			}
 
+			// 账号类型：点击复制，显示账号或标签
 			const showText = hasLabel || safeValue
 			const buttonIconSize = showText ? 'size-6' : 'size-8'
 			return (
@@ -262,6 +285,7 @@ export default function SocialButtons() {
 			)
 		}
 
+		// 链接类型按钮
 		if (button.type === 'link') {
 			return (
 				<motion.a
@@ -275,6 +299,7 @@ export default function SocialButtons() {
 			)
 		}
 
+		// 其他社交按钮，点击跳转
 		return (
 			<motion.a
 				key={button.id}
@@ -288,6 +313,7 @@ export default function SocialButtons() {
 		)
 	}
 
+	// 渲染整个社交按钮容器
 	return (
 		<HomeDraggableLayer cardKey='socialButtons' x={x} y={y} width={styles.width} height={styles.height}>
 			<motion.div className='absolute max-sm:static' animate={{ left: x, top: y }} initial={{ left: x, top: y }}>

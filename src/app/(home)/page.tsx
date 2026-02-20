@@ -1,3 +1,7 @@
+/**
+ * 首页组件
+ * 应用的主页面，包含各种卡片组件和布局编辑功能
+ */
 'use client'
 
 import HiCard from '@/app/(home)/hi-card'
@@ -24,21 +28,31 @@ import { useLanguage } from '@/i18n/context'
 import { LoginModal } from '@/components/login-modal'
 import { useLocalAuthStore } from '@/hooks/use-local-auth'
 
+/**
+ * 首页组件
+ * 展示各种卡片组件，支持布局编辑和配置
+ */
 export default function Home() {
-	const { maxSM } = useSize()
-	const { cardStyles, configDialogOpen, setConfigDialogOpen, siteContent } = useConfigStore()
-	const editing = useLayoutEditStore(state => state.editing)
-	const saveEditing = useLayoutEditStore(state => state.saveEditing)
-	const cancelEditing = useLayoutEditStore(state => state.cancelEditing)
-	const { t } = useLanguage()
-	const { isLoggedIn, logout, checkExpiration } = useLocalAuthStore()
-	const [loginModalOpen, setLoginModalOpen] = useState(false)
+	const { maxSM } = useSize() // 响应式尺寸判断
+	const { cardStyles, configDialogOpen, setConfigDialogOpen, siteContent } = useConfigStore() // 配置状态
+	const editing = useLayoutEditStore(state => state.editing) // 布局编辑状态
+	const saveEditing = useLayoutEditStore(state => state.saveEditing) // 保存编辑
+	const cancelEditing = useLayoutEditStore(state => state.cancelEditing) // 取消编辑
+	const { t } = useLanguage() // 国际化翻译
+	const { isLoggedIn, logout, checkExpiration } = useLocalAuthStore() // 本地认证状态
+	const [loginModalOpen, setLoginModalOpen] = useState(false) // 登录模态框状态
 
+	/**
+	 * 处理保存布局编辑
+	 */
 	const handleSave = () => {
 		saveEditing()
 		toast.success(t('home.layoutSaved'))
 	}
 
+	/**
+	 * 处理取消布局编辑
+	 */
 	const handleCancel = () => {
 		cancelEditing()
 		toast.info(t('home.layoutEditCanceled'))
@@ -48,6 +62,10 @@ export default function Home() {
 		// 检查登录状态是否过期
 		checkExpiration()
 
+		/**
+		 * 键盘事件处理
+		 * 支持快捷键操作
+		 */
 		const handleKeyDown = (e: KeyboardEvent) => {
 			// 打开配置对话框（仅登录状态下可用）
 			if ((e.ctrlKey || e.metaKey) && (e.key === 'P' || e.key === 'p')) {

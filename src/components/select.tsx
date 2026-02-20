@@ -1,3 +1,7 @@
+/**
+ * 下拉选择组件
+ * 用于提供可选择的下拉菜单
+ */
 'use client'
 
 import { cn } from '@/lib/utils'
@@ -6,25 +10,34 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'motion/react'
 
+/**
+ * 选择选项接口
+ */
 interface SelectOption {
-	value: string
-	label: ReactNode
+	value: string // 选项值
+	label: ReactNode // 选项标签
 }
 
+/**
+ * 选择组件属性接口
+ */
 interface SelectProps {
-	value: string
-	onChange: (value: string) => void
-	options: SelectOption[]
-	className?: string
-	disabled?: boolean
+	value: string // 当前选中值
+	onChange: (value: string) => void // 值变化回调
+	options: SelectOption[] // 选项列表
+	className?: string // 自定义类名
+	disabled?: boolean // 是否禁用
 }
 
+/**
+ * 下拉选择组件
+ */
 export function Select({ value, onChange, options, className, disabled }: SelectProps) {
-	const [open, setOpen] = useState(false)
-	const [mounted, setMounted] = useState(false)
-	const triggerRef = useRef<HTMLButtonElement>(null)
-	const dropdownRef = useRef<HTMLDivElement>(null)
-	const [position, setPosition] = useState({ top: 0, left: 0, width: 0 })
+	const [open, setOpen] = useState(false) // 下拉菜单是否打开
+	const [mounted, setMounted] = useState(false) // 组件是否已挂载
+	const triggerRef = useRef<HTMLButtonElement>(null) // 触发按钮引用
+	const dropdownRef = useRef<HTMLDivElement>(null) // 下拉菜单引用
+	const [position, setPosition] = useState({ top: 0, left: 0, width: 0 }) // 下拉菜单位置
 
 	const selectedOption = options.find(opt => opt.value === value) || options[0]
 
@@ -46,6 +59,9 @@ export function Select({ value, onChange, options, className, disabled }: Select
 	useEffect(() => {
 		if (!open) return
 
+		/**
+		 * 更新下拉菜单位置
+		 */
 		const updatePosition = () => {
 			if (triggerRef.current) {
 				const rect = triggerRef.current.getBoundingClientRect()
@@ -57,6 +73,9 @@ export function Select({ value, onChange, options, className, disabled }: Select
 			}
 		}
 
+		/**
+		 * 处理点击外部关闭下拉菜单
+		 */
 		const handleClickOutside = (e: MouseEvent) => {
 			const target = e.target as Node
 			if (triggerRef.current && !triggerRef.current.contains(target) && dropdownRef.current && !dropdownRef.current.contains(target)) {
@@ -64,25 +83,36 @@ export function Select({ value, onChange, options, className, disabled }: Select
 			}
 		}
 
+		/**
+		 * 处理ESC键关闭下拉菜单
+		 */
 		const handleEscape = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
 				setOpen(false)
 			}
 		}
 
+		/**
+		 * 处理滚动更新位置
+		 */
 		const handleScroll = () => {
 			updatePosition()
 		}
 
+		/**
+		 * 处理窗口 resize 更新位置
+		 */
 		const handleResize = () => {
 			updatePosition()
 		}
 
+		// 添加事件监听器
 		document.addEventListener('mousedown', handleClickOutside)
 		document.addEventListener('keydown', handleEscape)
 		window.addEventListener('scroll', handleScroll, true)
 		window.addEventListener('resize', handleResize)
 
+		// 清理事件监听器
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside)
 			document.removeEventListener('keydown', handleEscape)
@@ -91,6 +121,9 @@ export function Select({ value, onChange, options, className, disabled }: Select
 		}
 	}, [open])
 
+	/**
+	 * 处理选择选项
+	 */
 	const handleSelect = (optionValue: string) => {
 		onChange(optionValue)
 		setOpen(false)
@@ -151,11 +184,12 @@ export function Select({ value, onChange, options, className, disabled }: Select
 													'w-full rounded-lg px-3 py-2 text-left text-xs transition-all',
 													'active:scale-[0.98]',
 													isSelected ? 'bg-brand/10 text-brand font-medium' : 'hover:bg-gray-100/50 dark:hover:bg-gray-800/50'
-												)}>
+												)}
+											>
 												{option.label}
 											</button>
 										)
-									})}
+									})
 								</div>
 							</motion.div>
 						)}

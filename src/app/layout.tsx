@@ -1,3 +1,7 @@
+/**
+ * 根布局组件
+ * 应用的顶层布局，包含全局样式、元数据配置和安全脚本
+ */
 import '@/styles/globals.css'
 
 import type { Metadata } from 'next'
@@ -6,11 +10,16 @@ import Head from '@/layout/head'
 import siteContent from '@/config/site-content.json'
 import { LanguageProvider } from '@/i18n/context'
 
+// 从站点配置中获取元数据和主题设置
 const {
 	meta: { title, description },
 	theme
 } = siteContent
 
+/**
+ * 应用元数据配置
+ * 包含页面标题、描述和社交媒体分享信息
+ */
 export const metadata: Metadata = {
 	title,
 	description,
@@ -24,6 +33,10 @@ export const metadata: Metadata = {
 	}
 }
 
+/**
+ * HTML 样式配置
+ * 包含自定义光标和主题颜色变量
+ */
 const htmlStyle = {
 	cursor: 'url(/images/cursor.svg) 2 1, auto',
 	'--color-brand': theme.colorBrand,
@@ -36,6 +49,11 @@ const htmlStyle = {
 	'--color-article': theme.colorArticle
 }
 
+/**
+ * 根布局组件
+ * @param children 子组件内容
+ * @returns 完整的 HTML 布局结构
+ */
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang='en' suppressHydrationWarning style={htmlStyle}>

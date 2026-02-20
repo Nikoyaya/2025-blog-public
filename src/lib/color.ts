@@ -1,29 +1,48 @@
-// Simple color conversion utilities for hex mode
+/**
+ * 颜色转换工具函数
+ * 用于处理不同颜色格式之间的转换
+ */
 
+/**
+ * HSVA颜色接口
+ */
 export interface HSVA {
-	h: number
-	s: number
-	v: number
-	a: number
+	h: number // 色相 (0-360)
+	s: number // 饱和度 (0-1)
+	v: number // 明度 (0-1)
+	a: number // 透明度 (0-1)
 }
 
+/**
+ * HSL颜色接口
+ */
 export interface HSL {
-	h: number
-	s: number
-	l: number
+	h: number // 色相 (0-360)
+	s: number // 饱和度 (0-1)
+	l: number // 亮度 (0-1)
 }
 
+/**
+ * RGB颜色接口
+ */
 export interface RGB {
-	r: number
-	g: number
-	b: number
+	r: number // 红色通道 (0-255)
+	g: number // 绿色通道 (0-255)
+	b: number // 蓝色通道 (0-255)
 }
 
+/**
+ * RGBA颜色接口
+ */
 export interface RGBA extends RGB {
-	a: number
+	a: number // 透明度 (0-1)
 }
 
-// Convert 6-digit hex to RGB (no alpha)
+/**
+ * 将6位十六进制颜色转换为RGB
+ * @param hex 十六进制颜色字符串
+ * @returns RGB颜色对象
+ */
 export function hexToRgb(hex: string): RGB {
 	const cleaned = hex.replace('#', '')
 	const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleaned)
@@ -36,7 +55,12 @@ export function hexToRgb(hex: string): RGB {
 		: { r: 0, g: 0, b: 0 }
 }
 
-// Convert hex (6 or 8 digits) to RGBA
+/**
+ * 将十六进制颜色转换为RGBA
+ * 支持6位或8位十六进制格式
+ * @param hex 十六进制颜色字符串
+ * @returns RGBA颜色对象
+ */
 export function hexToRgba(hex: string): RGBA {
 	const cleaned = hex.replace('#', '')
 
@@ -57,16 +81,28 @@ export function hexToRgba(hex: string): RGBA {
 		return { r, g, b, a }
 	}
 
-	// Fallback
+	//  fallback
 	return { r: 0, g: 0, b: 0, a: 1 }
 }
 
-// Convert RGB to hex
+/**
+ * 将RGB转换为十六进制颜色
+ * @param r 红色通道 (0-255)
+ * @param g 绿色通道 (0-255)
+ * @param b 蓝色通道 (0-255)
+ * @returns 十六进制颜色字符串
+ */
 export function rgbToHex(r: number, g: number, b: number): string {
 	return '#' + [r, g, b].map(x => Math.round(x).toString(16).padStart(2, '0')).join('')
 }
 
-// Convert RGB to HSL
+/**
+ * 将RGB转换为HSL
+ * @param r 红色通道 (0-255)
+ * @param g 绿色通道 (0-255)
+ * @param b 蓝色通道 (0-255)
+ * @returns HSL颜色对象
+ */
 export function rgbToHsl(r: number, g: number, b: number): HSL {
 	r /= 255
 	g /= 255
@@ -102,7 +138,13 @@ export function rgbToHsl(r: number, g: number, b: number): HSL {
 	}
 }
 
-// Convert HSL to RGB
+/**
+ * 将HSL转换为RGB
+ * @param h 色相 (0-360)
+ * @param s 饱和度 (0-1)
+ * @param l 亮度 (0-1)
+ * @returns RGB颜色对象
+ */
 export function hslToRgb(h: number, s: number, l: number): RGB {
 	h /= 360
 	let r, g, b
@@ -134,7 +176,13 @@ export function hslToRgb(h: number, s: number, l: number): RGB {
 	}
 }
 
-// Convert HSL to HSV
+/**
+ * 将HSL转换为HSVA
+ * @param h 色相 (0-360)
+ * @param s 饱和度 (0-1)
+ * @param l 亮度 (0-1)
+ * @returns HSVA颜色对象
+ */
 export function hslToHsv(h: number, s: number, l: number): HSVA {
 	const v = l + s * Math.min(l, 1 - l)
 	const s2 = v === 0 ? 0 : 2 * (1 - l / v)
@@ -147,7 +195,13 @@ export function hslToHsv(h: number, s: number, l: number): HSVA {
 	}
 }
 
-// Convert HSV to HSL
+/**
+ * 将HSV转换为HSL
+ * @param h 色相 (0-360)
+ * @param s 饱和度 (0-1)
+ * @param v 明度 (0-1)
+ * @returns HSL颜色对象
+ */
 export function hsvToHsl(h: number, s: number, v: number) {
 	let l = (v * (2 - s)) / 2
 	if (l != 0) {
@@ -163,7 +217,11 @@ export function hsvToHsl(h: number, s: number, v: number) {
 	return { h, s, l }
 }
 
-// Convert hex to HSVA
+/**
+ * 将十六进制颜色转换为HSVA
+ * @param hex 十六进制颜色字符串
+ * @returns HSVA颜色对象
+ */
 export function hexToHsva(hex: string): HSVA {
 	const rgba = hexToRgba(hex)
 	const hsl = rgbToHsl(rgba.r, rgba.g, rgba.b)
@@ -177,16 +235,24 @@ export function hexToHsva(hex: string): HSVA {
 	}
 }
 
-// Convert HSVA to hex (outputs #RRGGBB or #RRGGBBAA when alpha < 1)
+/**
+ * 将HSVA转换为十六进制颜色
+ * 当alpha < 1时输出#RRGGBBAA格式，否则输出#RRGGBB格式
+ * @param h 色相 (0-360)
+ * @param s 饱和度 (0-1)
+ * @param v 明度 (0-1)
+ * @param a 透明度 (0-1)，默认为1
+ * @returns 十六进制颜色字符串
+ */
 export function hsvaToHex(h: number, s: number, v: number, a: number = 1): string {
 	const hsl = hsvToHsl(h, s, v)
 	const rgb = hslToRgb(hsl.h, hsl.s, hsl.l)
 	const baseHex = rgbToHex(rgb.r, rgb.g, rgb.b)
 
-	// Normalize alpha between 0 and 1
+	// 归一化alpha到0-1范围
 	const alpha = clamp(a, 0, 1)
 
-	// If fully opaque, keep legacy 6-digit hex for compatibility
+	// 如果完全不透明，保持传统的6位十六进制格式以兼容
 	if (alpha >= 1) {
 		return baseHex
 	}
@@ -198,12 +264,23 @@ export function hsvaToHex(h: number, s: number, v: number, a: number = 1): strin
 	return `${baseHex}${alphaHex}`
 }
 
-// Clamp number between min and max
+/**
+ * 将数字限制在最小和最大值之间
+ * @param value 要限制的数字
+ * @param min 最小值
+ * @param max 最大值
+ * @returns 限制后的数字
+ */
 export function clamp(value: number, min: number, max: number): number {
 	return Math.min(Math.max(value, min), max)
 }
 
-// Format number to fixed decimal places
+/**
+ * 将数字格式化为指定小数位数
+ * @param value 要格式化的数字
+ * @param decimals 小数位数，默认为2
+ * @returns 格式化后的数字
+ */
 export function toFixed(value: number, decimals: number = 2): number {
 	return Number(value.toFixed(decimals))
 }

@@ -1,12 +1,21 @@
+/**
+ * 认证相关工具函数
+ * 用于处理GitHub认证、令牌管理和缓存操作
+ */
 import { createInstallationToken, getInstallationId, signAppJwt } from './github-client'
 import { GITHUB_CONFIG } from '@/consts'
 import { useAuthStore } from '@/hooks/use-auth'
 import { toast } from 'sonner'
 import { decrypt,encrypt } from './aes256-util'
 
+// 缓存键名
 const GITHUB_TOKEN_CACHE_KEY = 'github_token'
 const GITHUB_PEM_CACHE_KEY = 'p_info'
 
+/**
+ * 从缓存获取令牌
+ * @returns 缓存的令牌或null
+ */
 function getTokenFromCache(): string | null {
 	if (typeof sessionStorage === 'undefined') return null
 	try {
@@ -16,6 +25,10 @@ function getTokenFromCache(): string | null {
 	}
 }
 
+/**
+ * 保存令牌到缓存
+ * @param token 要缓存的令牌
+ */
 function saveTokenToCache(token: string): void {
 	if (typeof sessionStorage === 'undefined') return
 	try {
@@ -25,6 +38,9 @@ function saveTokenToCache(token: string): void {
 	}
 }
 
+/**
+ * 清除令牌缓存
+ */
 function clearTokenCache(): void {
 	if (typeof sessionStorage === 'undefined') return
 	try {
@@ -34,6 +50,10 @@ function clearTokenCache(): void {
 	}
 }
 
+/**
+ * 从缓存获取解密后的私钥
+ * @returns 解密后的私钥或null
+ */
 export async function getPemFromCache(): Promise<string | null> {
 	if (typeof sessionStorage === 'undefined') return null
 	try {
@@ -46,6 +66,10 @@ export async function getPemFromCache(): Promise<string | null> {
 	}
 }
 
+/**
+ * 加密并保存私钥到缓存
+ * @param pem 要缓存的私钥
+ */
 export async function savePemToCache(pem: string): Promise<void> {
 	if (typeof sessionStorage === 'undefined') return
 	try {
@@ -57,6 +81,9 @@ export async function savePemToCache(pem: string): Promise<void> {
 	}
 }
 
+/**
+ * 清除私钥缓存
+ */
 function clearPemCache(): void {
 	if (typeof sessionStorage === 'undefined') return
 	try {
@@ -66,11 +93,18 @@ function clearPemCache(): void {
 	}
 }
 
+/**
+ * 清除所有认证相关缓存
+ */
 export function clearAllAuthCache(): void {
 	clearTokenCache()
 	clearPemCache()
 }
 
+/**
+ * 检查是否已认证
+ * @returns 是否已认证
+ */
 export async function hasAuth(): Promise<boolean> {
 	return !!getTokenFromCache() || !!(await getPemFromCache())
 }

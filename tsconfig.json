@@ -1,27 +1,31 @@
+/**
+ * TypeScript 配置文件
+ * 配置 TypeScript 编译器的行为和选项
+ */
 {
 	"compilerOptions": {
-		"target": "ES2017",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"allowJs": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"noEmit": true,
-		"esModuleInterop": true,
-		"module": "esnext",
-		"moduleResolution": "bundler",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"jsx": "react-jsx",
-		"incremental": true,
+		"target": "ES2017", // 编译目标 ECMAScript 版本
+		"lib": ["dom", "dom.iterable", "esnext"], // 包含的库文件
+		"allowJs": true, // 允许编译 JavaScript 文件
+		"skipLibCheck": true, // 跳过库文件的类型检查
+		"strict": true, // 启用所有严格类型检查选项
+		"noEmit": true, // 不生成输出文件
+		"esModuleInterop": true, // 启用 ES 模块互操作性
+		"module": "esnext", // 模块系统
+		"moduleResolution": "bundler", // 模块解析策略
+		"resolveJsonModule": true, // 允许导入 JSON 模块
+		"isolatedModules": true, // 每个文件作为单独的模块处理
+		"jsx": "react-jsx", // JSX 转换模式
+		"incremental": true, // 启用增量编译
 		"plugins": [
 			{
-				"name": "next"
+				"name": "next" // Next.js 插件
 			}
 		],
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"] // 路径别名配置
 		}
 	},
-	"include": ["global.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "**/*.mts"],
-	"exclude": ["node_modules"]
+	"include": ["global.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "**/*.mts"], // 包含的文件
+	"exclude": ["node_modules"] // 排除的目录
 }

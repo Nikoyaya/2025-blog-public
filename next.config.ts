@@ -1,31 +1,53 @@
+/**
+ * Next.js 配置文件
+ * 配置项目的构建选项、路由重定向、webpack配置等
+ */
 import { NextConfig } from 'next'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 
+/**
+ * Next.js 配置对象
+ */
 const nextConfig: NextConfig = {
+	// 禁用开发模式下的指示器
 	devIndicators: false,
+	// 禁用 React 严格模式
 	reactStrictMode: false,
+	// 启用 React 编译器
 	reactCompiler: true,
+	// 支持的页面文件扩展名
 	pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+	// TypeScript 配置
 	typescript: {
+		// 构建时忽略 TypeScript 错误
 		ignoreBuildErrors: true
 	},
+	// 实验性特性
 	experimental: {
+		// 禁用滚动位置恢复
 		scrollRestoration: false
 	},
+	// Turbopack 配置
 	turbopack: {
+		// 规则配置
 		rules: {
+			// SVG 文件处理
 			'*.svg': {
 				loaders: ['@svgr/webpack'],
 				as: '*.js'
 			}
+			// 代码检查器插件配置（已注释）
 			// ...codeInspectorPlugin({
-			// 	bundler: 'turbopack'
+			//  bundler: 'turbopack'
 			// })
 		},
 
+		// 解析扩展名顺序
 		resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json', 'css']
 	},
+	// Webpack 配置
 	webpack: config => {
+		// 添加 SVG 文件处理规则
 		config.module.rules.push({
 			test: /\.svg$/i,
 			use: [{ loader: '@svgr/webpack', options: { svgo: false } }]
@@ -34,17 +56,21 @@ const nextConfig: NextConfig = {
 		return config
 	},
 
+	/**
+	 * 路由重定向配置
+	 * 处理语言路由重定向到根路径
+	 */
 	async redirects() {
 		return [
 			{
-				source: '/zh',
-				destination: '/',
-				permanent: true
+				source: '/zh', // 中文路由
+				destination: '/', // 重定向到根路径
+				permanent: true // 永久重定向
 			},
 			{
-				source: '/en',
-				destination: '/',
-				permanent: true
+				source: '/en', // 英文路由
+				destination: '/', // 重定向到根路径
+				permanent: true // 永久重定向
 			}
 		]
 	}
