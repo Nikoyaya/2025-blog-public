@@ -25,7 +25,7 @@ type SocialButtonType =
 	| 'bilibili'
 	| 'qq'
 	| 'gitee'
-	| 'qq-group'
+	| 'qqGroup'
 
 interface SocialButtonConfig {
 	id: string
@@ -157,82 +157,160 @@ export function SocialButtonsSection({ formData, setFormData, socialButtonImageU
 							onChange={value => handleUpdateButton(button.id, { type: value as SocialButtonType })}
 							className='w-24'
 							options={[
-								{ value: 'github', label: 'Github' },
-								{ value: 'gitee', label: 'Gitee' },
-								{ value: 'juejin', label: '掘金' },
-								{ value: 'email', label: '邮箱' },
-								{ value: 'x', label: 'X' },
-								{ value: 'tg', label: 'Telegram' },
-								{ value: 'wechat', label: '微信' },
-								{ value: 'qq', label: 'QQ' },
-								{ value: 'qq-group', label: 'QQ群' },
-								{ value: 'facebook', label: 'Facebook' },
-								{ value: 'tiktok', label: 'TikTok' },
-								{ value: 'instagram', label: 'Instagram' },
-								{ value: 'weibo', label: '微博' },
-								{ value: 'xiaohongshu', label: '小红书' },
-								{ value: 'zhihu', label: '知乎' },
-								{ value: 'bilibili', label: '哔哩哔哩' },
-								{ value: 'link', label: '链接' }
+								{ value: 'github', label: t('siteSettings.socialButtons.types.github') },
+								{ value: 'gitee', label: t('siteSettings.socialButtons.types.gitee') },
+								{ value: 'juejin', label: t('siteSettings.socialButtons.types.juejin') },
+								{ value: 'email', label: t('siteSettings.socialButtons.types.email') },
+								{ value: 'x', label: t('siteSettings.socialButtons.types.x') },
+								{ value: 'tg', label: t('siteSettings.socialButtons.types.tg') },
+								{ value: 'wechat', label: t('siteSettings.socialButtons.types.wechat') },
+								{ value: 'qq', label: t('siteSettings.socialButtons.types.qq') },
+											{ value: 'qqGroup', label: t('siteSettings.socialButtons.types.qq-group') },
+								{ value: 'facebook', label: t('siteSettings.socialButtons.types.facebook') },
+								{ value: 'tiktok', label: t('siteSettings.socialButtons.types.tiktok') },
+								{ value: 'instagram', label: t('siteSettings.socialButtons.types.instagram') },
+								{ value: 'weibo', label: t('siteSettings.socialButtons.types.weibo') },
+								{ value: 'xiaohongshu', label: t('siteSettings.socialButtons.types.xiaohongshu') },
+								{ value: 'zhihu', label: t('siteSettings.socialButtons.types.zhihu') },
+								{ value: 'bilibili', label: t('siteSettings.socialButtons.types.bilibili') },
+								{ value: 'link', label: t('siteSettings.socialButtons.types.link') }
 							]}
 						/>
-						{button.type === 'wechat' || button.type === 'qq' || button.type === 'qq-group' ? (
-							<div className='flex flex-1 items-center gap-2'>
-								<input
-									ref={el => {
-										imageInputRefs.current[button.id] = el
-									}}
-									type='file'
-									accept='image/*'
-									className='hidden'
-									onChange={e => handleImageSelect(button.id, e)}
-								/>
-								{socialButtonImageUploads[button.id]?.type === 'file' ? (
-									<div className='relative flex flex-1 items-center gap-2'>
-										<img
-											src={(socialButtonImageUploads[button.id] as { type: 'file'; file: File; previewUrl: string; hash?: string }).previewUrl}
-											alt='preview'
-											className='h-10 w-10 rounded-lg object-cover'
-										/>
-										<input
-											type='text'
-											value={button.value}
-											onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
-											placeholder={button.type === 'wechat' ? t('siteSettings.socialButtons.wechatPlaceholder') : button.type === 'qq-group' ? 'QQ群号或二维码链接' : t('siteSettings.socialButtons.qqPlaceholder')}
-											className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
-										/>
-										<button type='button' onClick={() => handleRemoveImage(button.id)} className='text-xs text-red-500 hover:text-red-600'>
-											{t('siteSettings.socialButtons.deleteImage')}
-										</button>
-									</div>
-								) : button.value && button.value.startsWith('/images/social-buttons/') ? (
-									<div className='relative flex flex-1 items-center gap-2'>
-										<img src={button.value} alt='preview' className='h-10 w-10 rounded-lg object-cover' />
-										<input
-											type='text'
-											value={button.value}
-											onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
-											placeholder={button.type === 'wechat' ? t('siteSettings.socialButtons.wechatPlaceholder') : t('siteSettings.socialButtons.qqPlaceholder')}
-											className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
-										/>
-									</div>
-								) : (
-									<>
-										<input
-											type='text'
-											value={button.value}
-											onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
-											placeholder={button.type === 'wechat' ? t('siteSettings.socialButtons.wechatPlaceholder') : t('siteSettings.socialButtons.qqPlaceholder')}
-											className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
-										/>
-										<button
-											type='button'
-											onClick={() => imageInputRefs.current[button.id]?.click()}
-											className='bg-card rounded-lg border px-3 py-1.5 text-xs font-medium'>
-											{t('siteSettings.socialButtons.uploadImage')}
-										</button>
-									</>
-								)}
+						{button.type === 'wechat' || button.type === 'qq' || button.type === 'qqGroup' ? (
+							<div className='flex flex-1 flex-col gap-2'>
+								<div className='flex items-center gap-2'>
+									<Select
+										value={button.value?.startsWith('/images/social-buttons/') ? 'image' : (button.value?.startsWith('http://') || button.value?.startsWith('https://')) ? 'link' : 'account'}
+										onChange={async (value) => {
+											if (value === 'image') {
+												imageInputRefs.current[button.id]?.click()
+											} else if (value === 'account') {
+												handleUpdateButton(button.id, { value: '' })
+											} else if (value === 'link') {
+												handleUpdateButton(button.id, { value: 'https://' })
+											}
+										}}
+										className='w-24'
+										options={[
+											{ value: 'account', label: t('siteSettings.socialButtons.types.email') === 'Email' ? 'Account' : '账号' },
+											{ value: 'image', label: t('siteSettings.socialButtons.uploadImage') },
+											{ value: 'link', label: t('siteSettings.socialButtons.types.link') }
+										]}
+									/>
+									{(() => {
+										const safeValue = button.value || ''
+										const isImage = safeValue.startsWith('/images/social-buttons/')
+										const isLink = !isImage && (safeValue.startsWith('http://') || safeValue.startsWith('https://'))
+										const isAccount = !isImage && !isLink
+
+										if (isImage) {
+											return (
+												<div className='relative flex flex-1 items-center gap-2'>
+													<input
+														ref={el => {
+															imageInputRefs.current[button.id] = el
+														}}
+														type='file'
+														accept='image/*'
+														className='hidden'
+														onChange={e => handleImageSelect(button.id, e)}
+													/>
+													{(() => {
+										if (socialButtonImageUploads[button.id]?.type === 'file') {
+											return (
+												<div className='relative flex flex-1 items-center gap-2'>
+													<img
+														src={(socialButtonImageUploads[button.id] as { type: 'file'; file: File; previewUrl: string; hash?: string }).previewUrl}
+														alt='preview'
+														className='h-10 w-10 rounded-lg object-cover'
+													/>
+													<input
+														type='text'
+														value={safeValue}
+														onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
+														placeholder='Image path'
+														className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
+													/>
+													<button type='button' onClick={() => handleRemoveImage(button.id)} className='text-xs text-red-500 hover:text-red-600'>
+														{t('siteSettings.socialButtons.deleteImage')}
+													</button>
+												</div>
+											)
+										} else if (safeValue) {
+											return (
+												<div className='relative flex flex-1 items-center gap-2'>
+													<img src={safeValue} alt='preview' className='h-10 w-10 rounded-lg object-cover' />
+													<input
+														type='text'
+														value={safeValue}
+														onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
+														placeholder='Image path'
+														className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
+													/>
+													<button type='button' onClick={() => imageInputRefs.current[button.id]?.click()} className='bg-card rounded-lg border px-3 py-1.5 text-xs font-medium'>
+														{t('siteSettings.socialButtons.uploadImage')}
+													</button>
+												</div>
+											)
+										} else {
+											return (
+												<div className='relative flex flex-1 items-center gap-2'>
+													<input
+														type='text'
+														value={safeValue}
+														onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
+														placeholder='Image path'
+														className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
+													/>
+													<button type='button' onClick={() => imageInputRefs.current[button.id]?.click()} className='bg-card rounded-lg border px-3 py-1.5 text-xs font-medium'>
+														{t('siteSettings.socialButtons.uploadImage')}
+													</button>
+												</div>
+											)
+										}
+									})()}
+								</div>
+											)
+										} else if (isLink) {
+											return (
+												<input
+													type='url'
+													value={safeValue}
+													onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
+													placeholder={t('siteSettings.socialButtons.urlPlaceholder')}
+													className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
+												/>
+											)
+										} else {
+											return (
+												<div className='relative flex flex-1 items-center gap-2'>
+													<input
+														type='text'
+														value={safeValue}
+														onChange={e => handleUpdateButton(button.id, { value: e.target.value })}
+														placeholder={t(`siteSettings.socialButtons.accountPlaceholders.${button.type}`)}
+														className='bg-secondary/10 flex-1 rounded-lg border px-3 py-1.5 text-xs'
+													/>
+													<input
+														ref={el => {
+															imageInputRefs.current[button.id] = el
+														}}
+														type='file'
+														accept='image/*'
+														className='hidden'
+														onChange={e => handleImageSelect(button.id, e)}
+													/>
+													<button
+														type='button'
+														onClick={() => imageInputRefs.current[button.id]?.click()}
+														className='bg-card rounded-lg border px-3 py-1.5 text-xs font-medium'>
+														{t('siteSettings.socialButtons.uploadImage')}
+													</button>
+												</div>
+											)
+										}
+									})()}
+								</div>
 							</div>
 						) : (
 							<input

@@ -79,7 +79,37 @@ const translations: Translations = {
         emailPlaceholder: 'example@email.com',
         urlPlaceholder: 'https://example.com',
         labelPlaceholder: '标签文本（可选）',
-        orderPlaceholder: '顺序'
+        orderPlaceholder: '顺序',
+        accountPlaceholders: {
+          wechat: '微信号',
+          qq: 'QQ号',
+          qqGroup: 'QQ群号'
+        },
+        copied: {
+          email: '邮箱已复制到剪贴板',
+          wechat: '微信号已复制到剪贴板',
+          qq: 'QQ号已复制到剪贴板',
+          qqGroup: 'QQ群号已复制到剪贴板'
+        },
+        types: {
+          github: 'Github',
+          gitee: 'Gitee',
+          juejin: '掘金',
+          email: '邮箱',
+          x: 'X',
+          tg: 'Telegram',
+          wechat: '微信',
+          qq: 'QQ',
+          qqGroup: 'QQ群',
+          facebook: 'Facebook',
+          tiktok: 'TikTok',
+          instagram: 'Instagram',
+          weibo: '微博',
+          xiaohongshu: '小红书',
+          zhihu: '知乎',
+          bilibili: '哔哩哔哩',
+          link: '链接'
+        }
       },
       homeLayout: {
         offsetHint: '（偏移代表相对中心的偏移）',
@@ -399,7 +429,37 @@ const translations: Translations = {
         emailPlaceholder: 'example@email.com',
         urlPlaceholder: 'https://example.com',
         labelPlaceholder: 'Label text (Optional)',
-        orderPlaceholder: 'Order'
+        orderPlaceholder: 'Order',
+        accountPlaceholders: {
+          wechat: 'WeChat ID',
+          qq: 'QQ ID',
+          qqGroup: 'QQ Group ID'
+        },
+        copied: {
+          email: 'Email copied to clipboard',
+          wechat: 'WeChat ID copied to clipboard',
+          qq: 'QQ ID copied to clipboard',
+          qqGroup: 'QQ group ID copied to clipboard'
+        },
+        types: {
+          github: 'Github',
+          gitee: 'Gitee',
+          juejin: 'Juejin',
+          email: 'Email',
+          x: 'X',
+          tg: 'Telegram',
+          wechat: 'WeChat',
+          qq: 'QQ',
+          qqGroup: 'QQ Group',
+          facebook: 'Facebook',
+          tiktok: 'TikTok',
+          instagram: 'Instagram',
+          weibo: 'Weibo',
+          xiaohongshu: 'Xiaohongshu',
+          zhihu: 'Zhihu',
+          bilibili: 'Bilibili',
+          link: 'Link'
+        }
       },
       homeLayout: {
         offsetHint: '(Offset represents position relative to center)',
@@ -719,7 +779,37 @@ const translations: Translations = {
         emailPlaceholder: 'example@email.com',
         urlPlaceholder: 'https://example.com',
         labelPlaceholder: '標籤文字（可選）',
-        orderPlaceholder: '順序'
+        orderPlaceholder: '順序',
+        accountPlaceholders: {
+          wechat: '微信號',
+          qq: 'QQ號',
+          qqGroup: 'QQ群號'
+        },
+        copied: {
+          email: '郵箱已複製到剪貼板',
+          wechat: '微信號已複製到剪貼板',
+          qq: 'QQ號已複製到剪貼板',
+          qqGroup: 'QQ群號已複製到剪貼板'
+        },
+        types: {
+          github: 'Github',
+          gitee: 'Gitee',
+          juejin: '掘金',
+          email: '郵箱',
+          x: 'X',
+          tg: 'Telegram',
+          wechat: '微信',
+          qq: 'QQ',
+          qqGroup: 'QQ群',
+          facebook: 'Facebook',
+          tiktok: 'TikTok',
+          instagram: 'Instagram',
+          weibo: '微博',
+          xiaohongshu: '小紅書',
+          zhihu: '知乎',
+          bilibili: '嗶哩嗶哩',
+          link: '連結'
+        }
       },
       homeLayout: {
         offsetHint: '（偏移代表相對中心的偏移）',
@@ -1040,7 +1130,37 @@ const translations: Translations = {
         emailPlaceholder: 'example@email.com',
         urlPlaceholder: 'https://example.com',
         labelPlaceholder: 'ラベルテキスト（オプション）',
-        orderPlaceholder: '順序'
+        orderPlaceholder: '順序',
+        accountPlaceholders: {
+          wechat: 'WeChat ID',
+          qq: 'QQ ID',
+          qqGroup: 'QQグループID'
+        },
+        copied: {
+          email: 'メールアドレスをクリップボードにコピーしました',
+          wechat: 'WeChat IDをクリップボードにコピーしました',
+          qq: 'QQ IDをクリップボードにコピーしました',
+          qqGroup: 'QQグループIDをクリップボードにコピーしました'
+        },
+        types: {
+          github: 'Github',
+          gitee: 'Gitee',
+          juejin: '掘金',
+          email: 'メール',
+          x: 'X',
+          tg: 'Telegram',
+          wechat: 'WeChat',
+          qq: 'QQ',
+          qqGroup: 'QQグループ',
+          facebook: 'Facebook',
+          tiktok: 'TikTok',
+          instagram: 'Instagram',
+          weibo: '微博',
+          xiaohongshu: '小紅書',
+          zhihu: '知乎',
+          bilibili: 'Bilibili',
+          link: 'リンク'
+        }
       },
       homeLayout: {
         offsetHint: '（オフセットはセンターからの相対位置を表します）',
@@ -1362,7 +1482,37 @@ const translations: Translations = {
         emailPlaceholder: 'example@email.com',
         urlPlaceholder: 'https://example.com',
         labelPlaceholder: '레이블 텍스트 (선택 사항)',
-        orderPlaceholder: '순서'
+        orderPlaceholder: '순서',
+        accountPlaceholders: {
+          wechat: 'WeChat ID',
+          qq: 'QQ ID',
+          qqGroup: 'QQ 그룹 ID'
+        },
+        copied: {
+          email: '이메일이 클립보드에 복사되었습니다',
+          wechat: 'WeChat ID가 클립보드에 복사되었습니다',
+          qq: 'QQ ID가 클립보드에 복사되었습니다',
+          qqGroup: 'QQ 그룹 ID가 클립보드에 복사되었습니다'
+        },
+        types: {
+          github: 'Github',
+          gitee: 'Gitee',
+          juejin: '掘진',
+          email: '이메일',
+          x: 'X',
+          tg: 'Telegram',
+          wechat: 'WeChat',
+          qq: 'QQ',
+          qqGroup: 'QQ 그룹',
+          facebook: 'Facebook',
+          tiktok: 'TikTok',
+          instagram: 'Instagram',
+          weibo: '웨이보',
+          xiaohongshu: '샤오홍서',
+          zhihu: '지후',
+          bilibili: '비리비리',
+          link: '링크'
+        }
       },
       homeLayout: {
         offsetHint: '(오프셋은 중심으로부터의 상대적 위치를 나타냅니다)',

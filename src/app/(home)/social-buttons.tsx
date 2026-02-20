@@ -24,6 +24,7 @@ import { toast } from 'sonner'
 import { useSize } from '@/hooks/use-size'
 import { HomeDraggableLayer } from './home-draggable-layer'
 import { createPortal } from 'react-dom'
+import { useLanguage } from '@/i18n/context'
 
 type SocialButtonType =
 	| 'github'
@@ -42,7 +43,7 @@ type SocialButtonType =
 	| 'bilibili'
 	| 'qq'
 	| 'gitee'
-	| 'qq-group'
+	| 'qqGroup'
 
 interface SocialButtonConfig {
 	id: string
@@ -56,6 +57,7 @@ export default function SocialButtons() {
 	const center = useCenterStore()
 	const { cardStyles, siteContent } = useConfigStore()
 	const { maxSM, init } = useSize()
+	const { t } = useLanguage()
 	const styles = cardStyles.socialButtons
 	const hiCardStyles = cardStyles.hiCard
 	const order = maxSM && init ? 0 : styles.order
@@ -114,24 +116,24 @@ export default function SocialButtons() {
 	if (!showStates.container) return null
 
 	const iconMap: Record<SocialButtonType, React.ComponentType<{ className?: string }>> = {
-		github: GithubSVG,
-		juejin: JuejinSVG,
-		email: EmailSVG,
-		wechat: WechatSVG,
-		x: XSVG,
-		tg: TgSVG,
-		facebook: FacebookSVG,
-		tiktok: TiktokSVG,
-		instagram: InstagramSVG,
-		weibo: WeiboSVG,
-		xiaohongshu: XiaohongshuSVG,
-		zhihu: ZhihuSVG,
-		bilibili: BilibiliSVG,
-		qq: QqSVG,
-		gitee: GiteeSVG,
-		'qq-group': QqGroupSVG,
-		link: () => null
-	}
+			github: GithubSVG,
+			juejin: JuejinSVG,
+			email: EmailSVG,
+			wechat: WechatSVG,
+			x: XSVG,
+			tg: TgSVG,
+			facebook: FacebookSVG,
+			tiktok: TiktokSVG,
+			instagram: InstagramSVG,
+			weibo: WeiboSVG,
+			xiaohongshu: XiaohongshuSVG,
+			zhihu: ZhihuSVG,
+			bilibili: BilibiliSVG,
+			qq: QqSVG,
+			gitee: GiteeSVG,
+			qqGroup: QqGroupSVG,
+			link: () => null
+		}
 
 	const renderButton = (button: SocialButtonConfig) => {
 		if (!showStates[button.id]) return null
@@ -162,18 +164,20 @@ export default function SocialButtons() {
 			)
 		}
 
-		if (button.type === 'email' || button.type === 'wechat' || button.type === 'qq' || button.type === 'qq-group') {
-			const messageMap: Record<'email' | 'wechat' | 'qq' | 'qq-group', string> = {
-				email: '邮箱已复制到剪贴板',
-				wechat: '微信号已复制到剪贴板',
-				qq: 'QQ号已复制到剪贴板',
-				'qq-group': 'QQ群号已复制到剪贴板'
+		if (button.type === 'email' || button.type === 'wechat' || button.type === 'qq' || button.type === 'qqGroup') {
+			const messageMap: Record<'email' | 'wechat' | 'qq' | 'qqGroup', string> = {
+				email: t('siteSettings.socialButtons.copied.email'),
+				wechat: t('siteSettings.socialButtons.copied.wechat'),
+				qq: t('siteSettings.socialButtons.copied.qq'),
+				qqGroup: t('siteSettings.socialButtons.copied.qqGroup')
 			}
 
-			const isImagePath = button.value.startsWith('/images/social-buttons/')
+			const safeValue = button.value || ''
+			const isImagePath = safeValue.startsWith('/images/social-buttons/')
+			const isLink = !isImagePath && (safeValue.startsWith('http://') || safeValue.startsWith('https://'))
 			const isOpen = openDropdowns[button.id] || false
 
-			if (isImagePath && (button.type === 'wechat' || button.type === 'qq' || button.type === 'qq-group')) {
+			if (isImagePath && (button.type === 'wechat' || button.type === 'qq' || button.type === 'qqGroup')) {
 				return (
 					<div key={button.id} className='relative'>
 						<motion.button
@@ -184,8 +188,9 @@ export default function SocialButtons() {
 								setOpenDropdowns(prev => ({ ...prev, [button.id]: !prev[button.id] }))
 							}}
 							{...commonProps}
-							className='card btn relative rounded-xl p-1.5'>
-							<Icon className='size-8' />
+							className={`card btn relative rounded-xl ${hasLabel ? 'px-3 py-1.5 flex items-center gap-2' : 'p-1.5'}`}>
+							<Icon className={iconSize} />
+							{hasLabel && button.label}
 						</motion.button>
 						{typeof window !== 'undefined' &&
 							createPortal(
@@ -212,29 +217,47 @@ export default function SocialButtons() {
 													top: buttonRefs.current[button.id] ? `${buttonRefs.current[button.id]!.getBoundingClientRect().bottom + 8}px` : '0px',
 													left: buttonRefs.current[button.id] ? `${buttonRefs.current[button.id]!.getBoundingClientRect().left}px` : '0px',
 													boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-												}}>
-												<img src={button.value} alt='QR Code' className='h-48 w-48 rounded-lg object-cover' />
+												}}
+											>
+												<img src={safeValue} alt='QR Code' className='h-48 w-48 rounded-lg object-cover' />
 											</motion.div>
 										</>
 									)}
 								</AnimatePresence>,
 								document.body
 							)}
-					</div>
+				</div>
 				)
 			}
 
+			if (isLink) {
+				return (
+					<motion.a
+						key={button.id}
+						href={safeValue}
+						target='_blank'
+						{...commonProps}
+						className={`card relative rounded-xl font-medium whitespace-nowrap ${hasLabel ? 'flex items-center gap-2 px-3 py-2.5' : 'p-1.5'}`}>
+						<Icon className={iconSize} />
+						{hasLabel && button.label}
+					</motion.a>
+				)
+			}
+
+			const showText = hasLabel || safeValue
+			const buttonIconSize = showText ? 'size-6' : 'size-8'
 			return (
 				<motion.button
 					key={button.id}
 					onClick={() => {
-						navigator.clipboard.writeText(button.value).then(() => {
-							toast.success(messageMap[button.type as 'email' | 'wechat' | 'qq'])
+						navigator.clipboard.writeText(safeValue).then(() => {
+							toast.success(messageMap[button.type as 'email' | 'wechat' | 'qq' | 'qqGroup'])
 						})
 					}}
 					{...commonProps}
-					className='card btn relative rounded-xl p-1.5'>
-					<Icon className='size-8' />
+					className={`card btn relative rounded-xl ${showText ? 'px-3 py-1.5 flex items-center gap-2' : 'p-1.5'}`}>
+					<Icon className={buttonIconSize} />
+					{showText ? (hasLabel ? button.label : safeValue) : null}
 				</motion.button>
 			)
 		}
