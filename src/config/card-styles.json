@@ -3,16 +3,16 @@
 		"width": 360,
 		"height": 200,
 		"order": 3,
-		"offsetX": -153,
-		"offsetY": -323,
+		"offsetX": -222,
+		"offsetY": -321,
 		"enabled": true
 	},
 	"hiCard": {
 		"width": 360,
 		"height": 288,
 		"order": 1,
-		"offsetX": -188,
-		"offsetY": -108,
+		"offsetX": -182,
+		"offsetY": -51,
 		"enabled": true
 	},
 	"clockCard": {
@@ -45,8 +45,8 @@
 		"width": 315,
 		"height": 48,
 		"order": 6,
-		"offsetX": -158,
-		"offsetY": 194,
+		"offsetX": -133,
+		"offsetY": -111,
 		"enabled": true
 	},
 	"shareCard": {
@@ -61,8 +61,8 @@
 		"width": 266,
 		"height": 160,
 		"order": 8,
-		"offsetX": null,
-		"offsetY": null,
+		"offsetX": -472,
+		"offsetY": 202,
 		"enabled": true
 	},
 	"writeButtons": {
@@ -77,24 +77,24 @@
 		"width": 301,
 		"height": 439,
 		"order": 2,
-		"offsetX": -524,
-		"offsetY": -290,
+		"offsetX": -585,
+		"offsetY": -285,
 		"enabled": true
 	},
 	"likePosition": {
 		"width": 54,
 		"height": 54,
 		"order": 8,
-		"offsetX": -648,
-		"offsetY": 285,
+		"offsetX": -597,
+		"offsetY": 295,
 		"enabled": true
 	},
 	"hatCard": {
 		"width": 99,
 		"height": 105,
 		"order": 10,
-		"offsetX": -27,
-		"offsetY": -158,
+		"offsetX": -22,
+		"offsetY": -99,
 		"enabled": true
 	},
 	"beianCard": {
