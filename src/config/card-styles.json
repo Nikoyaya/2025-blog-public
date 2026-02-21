@@ -11,8 +11,8 @@
 		"width": 360,
 		"height": 288,
 		"order": 1,
-		"offsetX": -182,
-		"offsetY": -51,
+		"offsetX": -198,
+		"offsetY": -89,
 		"enabled": true
 	},
 	"clockCard": {
@@ -20,16 +20,16 @@
 		"height": 132,
 		"offset": 92,
 		"order": 4,
-		"offsetX": 260,
-		"offsetY": -219,
+		"offsetX": 281,
+		"offsetY": -245,
 		"enabled": true
 	},
 	"calendarCard": {
 		"width": 350,
 		"height": 286,
 		"order": 5,
-		"offsetX": null,
-		"offsetY": null,
+		"offsetX": 214,
+		"offsetY": -33,
 		"enabled": true
 	},
 	"musicCard": {
@@ -45,8 +45,8 @@
 		"width": 315,
 		"height": 48,
 		"order": 6,
-		"offsetX": -133,
-		"offsetY": -111,
+		"offsetX": 221,
+		"offsetY": -101,
 		"enabled": true
 	},
 	"shareCard": {
@@ -69,8 +69,8 @@
 		"height": 42,
 		"width": 180,
 		"order": 8,
-		"offsetX": 289,
-		"offsetY": -291,
+		"offsetX": 203,
+		"offsetY": -299,
 		"enabled": true
 	},
 	"navCard": {
@@ -93,8 +93,8 @@
 		"width": 99,
 		"height": 105,
 		"order": 10,
-		"offsetX": -22,
-		"offsetY": -99,
+		"offsetX": -37,
+		"offsetY": -141,
 		"enabled": true
 	},
 	"beianCard": {
