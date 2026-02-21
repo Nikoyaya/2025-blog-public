@@ -56,7 +56,7 @@
 			"type": "github",
 			"value": "https://github.com/AmisKwok",
 			"label": "Github",
-			"order": 3
+			"order": 1
 		},
 		{
 			"id": "juejin",
@@ -64,6 +64,13 @@
 			"value": "https://gitee.com/AmisKwok",
 			"label": "Gitee",
 			"order": 2
+		},
+		{
+			"id": "button-1771682789690",
+			"type": "qq",
+			"value": "/images/social-buttons/ec4f06a94c077b3b.png",
+			"label": "",
+			"order": 3
 		}
 	],
 	"clockShowSeconds": false,
