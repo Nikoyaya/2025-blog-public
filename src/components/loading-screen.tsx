@@ -14,7 +14,7 @@ interface LoadingScreenProps {
 type MultiLangDescription = string | Record<Language, string>
 
 export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
-	const [showContent, setShowContent] = useState(false)
+	const [showContent, setShowContent] = useState(true) // 初始就显示
 	const { language } = useLanguage()
 	const [currentLang, setCurrentLang] = useState<Language>('en')
 
@@ -77,9 +77,11 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 					initial={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
 					transition={{ duration: 0.6, ease: 'easeInOut' }}
-					className='fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden backdrop-blur-xl'
+					className='fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden'
 					style={{ 
-						background: `linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.9) 100%)`
+						background: `linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(240, 240, 245, 0.8) 100%)`,
+						backdropFilter: 'blur(24px) saturate(180%)',
+						WebkitBackdropFilter: 'blur(24px) saturate(180%)'
 					}}
 				>
 					<motion.div
@@ -89,7 +91,13 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 							duration: 0.8,
 							ease: [0.34, 1.56, 0.64, 1],
 						}}
-						className='relative flex flex-col items-center gap-4 max-sm:gap-3 rounded-3xl border border-white/20 bg-white/60 p-12 max-sm:p-6 shadow-2xl backdrop-blur-lg max-w-[90vw]'
+						className='relative flex flex-col items-center gap-4 max-sm:gap-3 rounded-3xl border border-white/30 p-12 max-sm:p-6 shadow-2xl max-w-[90vw]'
+						style={{
+							background: 'rgba(255, 255, 255, 0.4)',
+							backdropFilter: 'blur(20px) saturate(180%)',
+							WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+							boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.6)'
+						}}
 					>
 						<motion.div
 							animate={{
