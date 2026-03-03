@@ -49,7 +49,10 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 					initial={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
 					transition={{ duration: 0.6, ease: 'easeInOut' }}
-					className='fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-white/80 backdrop-blur-xl'
+					className='fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden backdrop-blur-xl'
+					style={{ 
+						background: `linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.9) 100%)`
+					}}
 				>
 					<motion.div
 						initial={{ scale: 0, opacity: 0 }}
@@ -58,7 +61,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 							duration: 0.8,
 							ease: [0.34, 1.56, 0.64, 1],
 						}}
-						className='relative flex flex-col items-center gap-6 rounded-3xl border border-white/20 bg-white/60 p-12 shadow-2xl backdrop-blur-lg'
+						className='relative flex flex-col items-center gap-4 max-sm:gap-3 rounded-3xl border border-white/20 bg-white/60 p-12 max-sm:p-6 shadow-2xl backdrop-blur-lg max-w-[90vw]'
 					>
 						<motion.div
 							animate={{
@@ -69,7 +72,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 								repeat: Infinity,
 								ease: 'easeInOut',
 							}}
-							className='relative flex h-24 w-24 items-center justify-center rounded-3xl shadow-2xl overflow-hidden'
+							className='relative flex h-24 w-24 max-sm:h-16 max-sm:w-16 items-center justify-center rounded-3xl max-sm:rounded-2xl shadow-2xl overflow-hidden'
 							style={{ 
 								backgroundColor: brandColor,
 								boxShadow: `0 20px 40px -10px ${brandColor}40`
@@ -91,7 +94,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 									repeat: Infinity,
 									ease: 'easeInOut',
 								}}
-								className='absolute inset-0 rounded-3xl'
+								className='absolute inset-0 rounded-3xl max-sm:rounded-2xl'
 								style={{ 
 									backgroundColor: brandColor,
 									filter: 'blur(8px)',
@@ -108,10 +111,10 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 								duration: 0.5,
 								ease: 'easeOut',
 							}}
-							className='flex flex-col items-center gap-3'
+							className='flex flex-col items-center gap-3 max-sm:gap-2'
 						>
 							<motion.h1
-								className='text-3xl font-bold'
+								className='text-3xl max-sm:text-2xl font-bold text-center'
 								style={{ color: brandColor }}
 								animate={{
 									opacity: [1, 0.8, 1],
@@ -129,7 +132,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
 								transition={{ delay: 0.5, duration: 0.5 }}
-								className='text-sm text-gray-500'
+								className='text-sm max-sm:text-xs text-gray-500 text-center px-4'
 							>
 								{getDescription()}
 							</motion.p>
@@ -142,7 +145,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 									duration: 1.2,
 									ease: 'easeInOut',
 								}}
-								className='h-0.5 rounded-full'
+								className='h-0.5 rounded-full max-sm:hidden'
 								style={{ backgroundColor: `${brandColor}30` }}
 							/>
 						</motion.div>
@@ -151,7 +154,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ delay: 0.8, duration: 0.5 }}
-							className='mt-4 flex gap-2'
+							className='mt-4 max-sm:mt-2 flex gap-2'
 						>
 							{[0, 1, 2].map((index) => (
 								<motion.div
@@ -166,7 +169,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 										delay: index * 0.15,
 										ease: 'easeInOut',
 									}}
-									className='h-2 w-2 rounded-full'
+									className='h-2 w-2 max-sm:h-1.5 max-sm:w-1.5 rounded-full'
 									style={{ backgroundColor: brandColor }}
 								/>
 							))}
@@ -181,7 +184,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 								repeat: Infinity,
 								ease: 'linear',
 							}}
-							className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
+							className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-sm:hidden'
 							style={{
 								width: '400px',
 								height: '400px',
@@ -199,7 +202,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 								repeat: Infinity,
 								ease: 'linear',
 							}}
-							className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
+							className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-sm:hidden'
 							style={{
 								width: '500px',
 								height: '500px',
@@ -213,7 +216,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 						initial={{ scale: 0, opacity: 0 }}
 						animate={{ scale: 1, opacity: 0.12 }}
 						transition={{ delay: 0.2, duration: 1 }}
-						className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
+						className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-sm:hidden'
 						style={{
 							width: '600px',
 							height: '600px',
@@ -226,7 +229,7 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 						initial={{ scale: 0, opacity: 0 }}
 						animate={{ scale: 1, opacity: 0.06 }}
 						transition={{ delay: 0.4, duration: 1.2 }}
-						className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
+						className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-sm:hidden'
 						style={{
 							width: '800px',
 							height: '800px',
