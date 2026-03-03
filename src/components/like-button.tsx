@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { BLOG_SLUG_KEY } from '@/consts'
 import { useLanguage } from '@/i18n/context'
+import { useSize } from '@/hooks/use-size'
 
 type LikeButtonProps = {
 	slug?: string
@@ -13,6 +14,10 @@ type LikeButtonProps = {
 	delay?: number
 	isInArticlePage?: boolean
 }
+
+// 气泡消失时间配置（毫秒）
+const BUBBLE_FADEOUT_DELAY_DESKTOP = 5000 // 电脑端 5秒后消失
+const BUBBLE_FADEOUT_DELAY_MOBILE = 3000 // 移动端看到后 3 秒消失
 
 // 恢复API调用，使用新的后端接口
 const API_HOST = 'https://api.amisweb.fun'
@@ -26,6 +31,14 @@ const API_ENDPOINTS = {
 export default function LikeButton({ slug = 'amis', className, isInArticlePage = false }: LikeButtonProps) {
 	// 保存原始 slug
 	const originalSlug = slug
+	const { maxSM } = useSize()
+	
+	// 气泡显示状态
+	const [showBubble, setShowBubble] = useState(true)
+	// 移动端是否已经看到过气泡（用于防止重复触发）
+	const mobileBubbleSeenRef = useRef(false)
+	// 点赞按钮容器引用（用于 Intersection Observer）
+	const containerRef = useRef<HTMLDivElement>(null)
 	
 	// 生成 localStorage 键，区分主页和文章页面
 	const getLocalStorageKey = () => {
@@ -47,6 +60,50 @@ export default function LikeButton({ slug = 'amis', className, isInArticlePage =
 	
 	// 防抖定时器引用
 	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+	// 电脑端气泡延时消失效果
+	useEffect(() => {
+		// 只在非文章页面且非移动端时应用消失效果
+		if (isInArticlePage || maxSM) return
+		
+		const timer = setTimeout(() => {
+			setShowBubble(false)
+		}, BUBBLE_FADEOUT_DELAY_DESKTOP)
+		
+		return () => clearTimeout(timer)
+	}, [isInArticlePage, maxSM])
+
+	// 移动端气泡消失效果：用户看到气泡后 3 秒消失
+	useEffect(() => {
+		// 只在非文章页面且移动端时应用
+		if (isInArticlePage || !maxSM) return
+		
+		const container = containerRef.current
+		if (!container) return
+		
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					// 当气泡进入视口且尚未被标记为已看到
+					if (entry.isIntersecting && !mobileBubbleSeenRef.current) {
+						mobileBubbleSeenRef.current = true
+						// 3 秒后隐藏气泡
+						setTimeout(() => {
+							setShowBubble(false)
+						}, BUBBLE_FADEOUT_DELAY_MOBILE)
+					}
+				})
+			},
+			{
+				threshold: 0.5, // 当 50% 的元素可见时触发
+				rootMargin: '0px'
+			}
+		)
+		
+		observer.observe(container)
+		
+		return () => observer.disconnect()
+	}, [isInArticlePage, maxSM])
 
 	useEffect(() => {
 		if (justLiked) {
@@ -213,29 +270,34 @@ export default function LikeButton({ slug = 'amis', className, isInArticlePage =
 	}, [slug, loading, t])
 
 	return (
-		<div className='relative inline-block'>
+		<div className='relative inline-block' ref={containerRef}>
 			{/* 聊天气泡提示 - 不在文章页面内才显示 */}
 			{!isInArticlePage && (
-				<motion.div
-					className='absolute top-[-64px] left-1/2 transform -translate-x-1/2 z-0 max-w-md w-auto min-w-40 px-4 py-2 rounded-[40px] bg-card border pointer-events-none'
-					style={{ boxShadow: '0 40px 50px -32px rgba(0, 0, 0, 0.05)', backdropFilter: 'blur(4px)' }}
-					initial={{ opacity: 0, y: 10, scale: 0.8 }}
-					animate={{ opacity: 1, y: 0, scale: 1 }}
-					transition={{ delay: 1, duration: 0.5 }}
-				>
-					<div className='text-sm font-medium text-gray-800 text-center'>
-						{t('siteSettings.like.bubble')}
-					</div>
-					{/* 气泡尾巴 - 暂时注释掉
-					<div className='absolute -bottom-2 left-1/2 transform -translate-x-1/2'>
-						<div className='h-4 w-4 bg-transparent'>
-							<div className='relative h-full w-full'>
-								<div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-45 h-3 w-3 bg-card border-t border-l rounded-sm'></div>
+				<AnimatePresence>
+					{showBubble && (
+						<motion.div
+							className='absolute top-[-64px] left-1/2 transform -translate-x-1/2 z-0 max-w-md w-auto min-w-40 px-4 py-2 rounded-[40px] bg-card border pointer-events-none'
+							style={{ boxShadow: '0 40px 50px -32px rgba(0, 0, 0, 0.05)', backdropFilter: 'blur(4px)' }}
+							initial={{ opacity: 0, y: 10, scale: 0.8 }}
+							animate={{ opacity: 1, y: 0, scale: 1 }}
+							exit={{ opacity: 0, y: -10, scale: 0.8 }}
+							transition={{ delay: 1, duration: 0.5 }}
+						>
+							<div className='text-sm font-medium text-gray-800 text-center'>
+								{t('siteSettings.like.bubble')}
 							</div>
-						</div>
-					</div>
-					*/}
-				</motion.div>
+							{/* 气泡尾巴 - 暂时注释掉
+							<div className='absolute -bottom-2 left-1/2 transform -translate-x-1/2'>
+								<div className='h-4 w-4 bg-transparent'>
+									<div className='relative h-full w-full'>
+										<div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-45 h-3 w-3 bg-card border-t border-l rounded-sm'></div>
+									</div>
+								</div>
+							</div>
+							*/}
+						</motion.div>
+					)}
+				</AnimatePresence>
 			)}
 			
 			<motion.button
