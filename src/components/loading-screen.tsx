@@ -14,7 +14,7 @@ interface LoadingScreenProps {
 type MultiLangDescription = string | Record<Language, string>
 
 export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
-	const [showContent, setShowContent] = useState(true) // 初始就显示
+	const [showContent, setShowContent] = useState(false)
 	const { language } = useLanguage()
 	const [currentLang, setCurrentLang] = useState<Language>('en')
 
@@ -150,8 +150,10 @@ export function LoadingScreen({ isLoading, onComplete }: LoadingScreenProps) {
 							className='flex flex-col items-center gap-3 max-sm:gap-2'
 						>
 							<motion.h1
-								className='text-3xl max-sm:text-2xl font-bold text-center'
-								style={{ color: brandColor }}
+								className='text-3xl max-sm:text-2xl font-bold text-center font-averia text-linear'
+								style={{ 
+									fontFamily: "'Averia Gruesa Libre', 'ZCOOL QingKe HuangYou', 'ZCOOL KuaiLe', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans TC', 'PingFang TC', sans-serif"
+								}}
 								animate={{
 									opacity: [1, 0.8, 1],
 								}}
