@@ -176,7 +176,13 @@ export default function ConfigDialog({ open, onClose }: ConfigDialogProps) {
 			document.title = originalData.meta.title
 			const metaDescription = document.querySelector('meta[name="description"]')
 			if (metaDescription) {
-				metaDescription.setAttribute('content', originalData.meta.description)
+				const savedLang = localStorage.getItem('language') || 'en'
+				const desc = typeof originalData.meta.description === 'string' 
+					? originalData.meta.description 
+					: originalData.meta.description[savedLang as keyof typeof originalData.meta.description] || 
+					  originalData.meta.description['en'] || 
+					  Object.values(originalData.meta.description)[0] || ''
+				metaDescription.setAttribute('content', desc)
 			}
 		}
 		updateThemeVariables(originalData.theme)
@@ -216,7 +222,13 @@ export default function ConfigDialog({ open, onClose }: ConfigDialogProps) {
 			document.title = formData.meta.title
 			const metaDescription = document.querySelector('meta[name="description"]')
 			if (metaDescription) {
-				metaDescription.setAttribute('content', formData.meta.description)
+				const savedLang = localStorage.getItem('language') || 'en'
+				const desc = typeof formData.meta.description === 'string' 
+					? formData.meta.description 
+					: formData.meta.description[savedLang as keyof typeof formData.meta.description] || 
+					  formData.meta.description['en'] || 
+					  Object.values(formData.meta.description)[0] || ''
+				metaDescription.setAttribute('content', desc)
 			}
 		}
 		updateThemeVariables(formData.theme)

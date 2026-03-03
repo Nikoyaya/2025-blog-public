@@ -113,7 +113,19 @@ export const revalidate = false
 
 export function GET(): Response {
 	const title = siteContent.meta?.title || 'Amis\'s Blog'
-	const description = siteContent.meta?.description || 'Latest updates from Amis\'s Blog'
+	
+	// 获取description，支持字符串或对象格式
+	let description: string
+	if (typeof siteContent.meta?.description === 'string') {
+		description = siteContent.meta.description
+	} else if (siteContent.meta?.description && typeof siteContent.meta.description === 'object') {
+		// 如果是对象，优先使用中文，否则使用第一个可用的语言
+		description = siteContent.meta.description['zh-CN'] || 
+					  Object.values(siteContent.meta.description)[0] || 
+					  'Latest updates from Amis\'s Blog'
+	} else {
+		description = 'Latest updates from Amis\'s Blog'
+	}
 
 	const items = blogs
 		.filter(item => item?.slug)
