@@ -6,6 +6,9 @@ import dayjs from 'dayjs'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { motion } from 'motion/react'
 
+// 扩展 dayjs 插件以支持 week() 方法
+dayjs.extend(weekOfYear)
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { ANIMATION_DELAY, INIT_DELAY } from '@/consts'
@@ -85,6 +88,12 @@ export default function BlogPage() {
 				let label: string
 				const date = dayjs(item.date)
 
+				// 检查日期是否有效
+				if (!date.isValid()) {
+					// 如果日期无效，跳过这个item
+					return acc
+				}
+
 				switch (displayMode) {
 						case 'category':
 							key = item.category || t('blog.uncategorized')
@@ -96,6 +105,11 @@ export default function BlogPage() {
 						break
 					case 'week':
 						const week = date.week()
+						// 检查周数是否有效
+						if (week === undefined || week === null || week < 1 || week > 53) {
+							// 如果周数无效，跳过这个item
+							return acc
+						}
 						key = `${date.format('YYYY')}-W${week.toString().padStart(2, '0')}`
 						label = `${date.format('YYYY')}年第${week}周`
 						break
