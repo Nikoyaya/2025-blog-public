@@ -17,6 +17,7 @@ type SizeState = {
 	maxMD: boolean // 是否小于 MD 断点 (768px)
 	maxSM: boolean // 是否小于 SM 断点 (640px)
 	maxXS: boolean // 是否小于 XS 断点 (360px)
+	isTablet: boolean // 是否为平板设备 (768px - 1024px)
 	recalc: () => void // 重新计算尺寸的方法
 }
 
@@ -29,7 +30,8 @@ const initState = {
 	maxLG: false,
 	maxMD: false,
 	maxSM: false,
-	maxXS: false
+	maxXS: false,
+	isTablet: false
 }
 
 /**
@@ -46,7 +48,8 @@ const computeSize = (): Omit<SizeState, 'recalc'> => {
 			maxLG: width < 1024,
 			maxMD: width < 768,
 			maxSM: width < 640,
-			maxXS: width < 360
+			maxXS: width < 360,
+			isTablet: width >= 768 && width < 1024
 		}
 	}
 
