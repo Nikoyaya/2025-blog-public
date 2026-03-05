@@ -148,6 +148,14 @@
     "cachePem": "缓存PEM(已加密，但存在风险)",
     "enableCategories": "启用文章分类",
     "enableChristmas": "开启圣诞节",
+    "backgroundEffect": {
+      "title": "背景效果",
+      "none": "无",
+      "snow": "雪花飘落",
+      "fireflies": "萤火虫",
+      "cherryBlossom": "樱花飘落",
+      "tip": "提示：三种效果只能同时启用一种"
+    },
     "artImages": {
       "title": "首页图片",
       "noImages": "暂未配置 Art 图片，点击下方「+」添加。",

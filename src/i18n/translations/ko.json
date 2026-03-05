@@ -148,6 +148,14 @@
     "cachePem": "PEM 캐시 (암호화되었지만 위험이 있음)",
     "enableCategories": "글 카테고리 활성화",
     "enableChristmas": "크리스마스 활성화",
+    "backgroundEffect": {
+      "title": "배경 효과",
+      "none": "없음",
+      "snow": "눈 내리는",
+      "fireflies": "반딧불이",
+      "cherryBlossom": "벚꽃",
+      "tip": "팁: 한 번에 하나의 효과만 활성화할 수 있습니다"
+    },
     "artImages": {
       "title": "홈 이미지",
       "noImages": "아직 Art 이미지가 구성되지 않았습니다. 아래의 '+'를 클릭하여 추가하세요.",

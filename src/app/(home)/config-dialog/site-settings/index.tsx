@@ -10,6 +10,7 @@ import { SocialButtonsSection } from './social-buttons-section'
 import { HatSection } from './hat-section'
 import { BeianForm } from './beian-form'
 import { WalineSection } from './waline-section'
+import { BackgroundEffectSection } from './background-effect-section'
 import { useLanguage } from '@/i18n/context'
 
 export type { FileItem, ArtImageUploads, BackgroundImageUploads, SocialButtonImageUploads } from './types'
@@ -129,6 +130,8 @@ export function SiteSettings({
 					<span className='text-sm font-medium'>{t('siteSettings.enableChristmas')}</span>
 				</label>
 			</div>
+
+			<BackgroundEffectSection formData={formData} setFormData={setFormData} />
 
 			<HatSection formData={formData} setFormData={setFormData} />
 

@@ -148,6 +148,14 @@
     "cachePem": "Cache PEM (encrypted, but with risk)",
     "enableCategories": "Enable article categories",
     "enableChristmas": "Enable Christmas",
+    "backgroundEffect": {
+      "title": "Background Effect",
+      "none": "None",
+      "snow": "Falling Snow",
+      "fireflies": "Fireflies",
+      "cherryBlossom": "Cherry Blossom",
+      "tip": "Tip: Only one effect can be enabled at a time"
+    },
     "artImages": {
       "title": "Home Images",
       "noImages": "No Art images configured yet. Click the \"+\" below to add.",

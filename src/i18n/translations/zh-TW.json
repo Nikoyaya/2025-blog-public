@@ -148,6 +148,14 @@
     "cachePem": "快取PEM(已加密，但存在風險)",
     "enableCategories": "啟用文章分類",
     "enableChristmas": "開啟聖誕節",
+    "backgroundEffect": {
+      "title": "背景效果",
+      "none": "無",
+      "snow": "雪花飄落",
+      "fireflies": "螢火蟲",
+      "cherryBlossom": "櫻花飄落",
+      "tip": "提示：三種效果只能同時啟用一種"
+    },
     "artImages": {
       "title": "首頁圖片",
       "noImages": "暫未配置 Art 圖片，點擊下方「+」新增。",

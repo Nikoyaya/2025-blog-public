@@ -86,7 +86,10 @@
 	"enableCategories": true,
 	"currentHatIndex": 24,
 	"hatFlipped": false,
-	"enableChristmas": true,
+	"enableChristmas": false,
+	"enableSnow": false,
+	"enableFireflies": false,
+	"enableCherryBlossom": true,
 	"enableBackgroundBlur": false,
 	"beian": {
 		"text": "",

@@ -148,6 +148,14 @@
     "cachePem": "PEMをキャッシュ（暗号化されていますが、リスクがあります）",
     "enableCategories": "記事カテゴリを有効にする",
     "enableChristmas": "クリスマスを有効にする",
+    "backgroundEffect": {
+      "title": "背景エフェクト",
+      "none": "なし",
+      "snow": "雪の降る",
+      "fireflies": "ホタル",
+      "cherryBlossom": "桜の花びら",
+      "tip": "ヒント：一度に有効にできるエフェクトは1つだけです"
+    },
     "artImages": {
       "title": "ホーム画像",
       "noImages": "まだArt画像が設定されていません。下の「+」をクリックして追加してください。",

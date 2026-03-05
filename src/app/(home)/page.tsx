@@ -25,6 +25,8 @@ import { toast } from 'sonner'
 import ConfigDialog from './config-dialog/index'
 import { useEffect, useState } from 'react'
 import SnowfallBackground from '@/layout/backgrounds/snowfall'
+import FirefliesBackground from '@/layout/backgrounds/fireflies'
+import CherryBlossomBackground from '@/layout/backgrounds/cherry-blossom'
 import { useLanguage } from '@/i18n/context'
 import { LoginModal } from '@/components/login-modal'
 import { useLocalAuthStore } from '@/hooks/use-local-auth'
@@ -101,9 +103,27 @@ export default function Home() {
 		}
 	}, [setConfigDialogOpen, isLoggedIn, logout, setLoginModalOpen, checkExpiration])
 
+	// 渲染背景效果
+	const renderBackgroundEffect = (zIndex: number) => {
+		const count = !maxSM ? 125 : 20
+		const firefliesCount = !maxSM ? 40 : 15
+		const cherryBlossomCount = !maxSM ? 50 : 20
+
+		if (siteContent.enableSnow) {
+			return <SnowfallBackground zIndex={zIndex} count={count} />
+		}
+		if (siteContent.enableFireflies) {
+			return <FirefliesBackground zIndex={zIndex} count={firefliesCount} />
+		}
+		if (siteContent.enableCherryBlossom) {
+			return <CherryBlossomBackground zIndex={zIndex} count={cherryBlossomCount} />
+		}
+		return null
+	}
+
 	return (
 		<>
-			{siteContent.enableChristmas && <SnowfallBackground zIndex={0} count={!maxSM ? 125 : 20} />}
+			{renderBackgroundEffect(0)}
 
 			{editing && (
 				<div className='pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center pt-6'>
@@ -142,7 +162,7 @@ export default function Home() {
 			
 			</div>
 
-			{siteContent.enableChristmas && <SnowfallBackground zIndex={2} count={!maxSM ? 125 : 20} />}
+			{renderBackgroundEffect(2)}
 			<ConfigDialog open={configDialogOpen} onClose={() => setConfigDialogOpen(false)} />
 			<LoginModal
 				open={loginModalOpen}
