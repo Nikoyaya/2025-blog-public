@@ -77,6 +77,21 @@
 			"value": "/images/social-buttons/ec4f06a94c077b3b.png",
 			"label": "",
 			"order": 3
+		},
+		{
+			"id": "button-1773343294027",
+			"type": "email",
+			"value": "amiskwokk@gmail.com",
+			"label": "",
+			"order": 4
+		},
+		{
+			"id": "button-1773343300836",
+			"type": "homepage",
+			"value": "https://www.amisweb.cn",
+			"label": "",
+			"order": 5,
+			"icon": "/images/social-buttons/4497f4cfd65cd9cf.png"
 		}
 	],
 	"clockShowSeconds": false,
