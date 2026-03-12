@@ -18,6 +18,8 @@
   "dependencies": {
     "@opennextjs/cloudflare": "^1.14.4",
     "@types/jsrsasign": "^10.5.15",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "@waline/client": "^3.12.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.18",

@@ -9,6 +9,8 @@ import Layout from '@/layout'
 import Head from '@/layout/head'
 import siteContent from '@/config/site-content.json'
 import { LanguageProvider } from '@/i18n/context'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 // 从站点配置中获取元数据和主题设置
 const {
@@ -16,20 +18,25 @@ const {
 	theme
 } = siteContent
 
+// 处理多语言 description，提取字符串值
+const descriptionText = typeof description === 'string' 
+	? description 
+	: description['zh-CN'] || Object.values(description)[0]
+
 /**
  * 应用元数据配置
  * 包含页面标题、描述和社交媒体分享信息
  */
 export const metadata: Metadata = {
 	title,
-	description,
+	description: descriptionText,
 	openGraph: {
 		title,
-		description
+		description: descriptionText
 	},
 	twitter: {
 		title,
-		description
+		description: descriptionText
 	}
 }
 
@@ -70,6 +77,12 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 				<LanguageProvider>
 					<Layout>{children}</Layout>
 				</LanguageProvider>
+
+				{/* Vercel Analytics */}
+				<Analytics />
+
+				{/* Vercel Speed Insights */}
+				<SpeedInsights />
 			</body>
 		</html>
 	)
